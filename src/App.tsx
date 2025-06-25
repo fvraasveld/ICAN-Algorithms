@@ -643,7 +643,7 @@ const TMRPredictionTool = () => {
                 <li>Depression</li>
                 <li>Proximal amputation level</li>
               </ul>
-            </div>
+            </div> {/* Close the grid container here */}
           
           <p className="mb-4">
             Each factor in this tool contributed >5% to the prediction accuracy in our machine learning model. 
