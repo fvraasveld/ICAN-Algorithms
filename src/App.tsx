@@ -422,38 +422,38 @@ const TMRPredictionTool = () => {
                 </div>
 
                 <div className="space-y-4">
-                <Alert className="border" variant={allRequiredFieldsFilled ? (riskLevel === "High Risk" ? "error" : riskLevel === "Moderate Risk" ? "warning" : "success") : "default"}>
-  <AlertTitle className="text-lg font-bold">Risk Assessment</AlertTitle>
-  <AlertDescription>
-    <div className="mt-2">
-      {allRequiredFieldsFilled ? (
-        <div className="text-lg font-medium">{riskLevel}</div>
-      ) : (
-        <div className="text-sm font-medium">Complete all required fields to view risk assessment</div>
-      )}
-    </div>
-  </AlertDescription>
-</Alert>
+                  <Alert className="border" variant={allRequiredFieldsFilled ? (riskLevel === "High Risk" ? "error" : riskLevel === "Moderate Risk" ? "warning" : "success") : "default"}>
+                    <AlertTitle className="text-lg font-bold">Risk Assessment</AlertTitle>
+                    <AlertDescription>
+                      <div className="mt-2">
+                        {allRequiredFieldsFilled ? (
+                          <div className="text-lg font-medium">{riskLevel}</div>
+                        ) : (
+                          <div className="text-sm font-medium">Complete all required fields to view risk assessment</div>
+                        )}
+                      </div>
+                    </AlertDescription>
+                  </Alert>
 
                   <Alert>
-  <AlertTitle>Clinical Recommendations</AlertTitle>
-  <AlertDescription>
-    {allRequiredFieldsFilled && recommendations.length > 0 ? (
-      <ul className="mt-2 text-sm space-y-1">
-        {recommendations.map((rec, index) => (
-          <li key={index} className="flex items-start">
-            <span className="mr-2 text-[#0096B7]">•</span>
-            <span>{rec}</span>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <div className="mt-2 text-sm">
-        Recommendations will appear here based on risk assessment
-      </div>
-    )}
-  </AlertDescription>
-</Alert>
+                    <AlertTitle>Clinical Recommendations</AlertTitle>
+                    <AlertDescription>
+                      {allRequiredFieldsFilled && recommendations.length > 0 ? (
+                        <ul className="mt-2 text-sm space-y-1">
+                          {recommendations.map((rec, index) => (
+                            <li key={index} className="flex items-start">
+                              <span className="mr-2 text-[#0096B7]">•</span>
+                              <span>{rec}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="mt-2 text-sm">
+                          Recommendations will appear here based on risk assessment
+                        </div>
+                      )}
+                    </AlertDescription>
+                  </Alert>
 
                   <div className="text-sm text-gray-500 mt-4">
                     <p>This tool evaluates major risk factors identified in our RVM model study:</p>
@@ -643,7 +643,8 @@ const TMRPredictionTool = () => {
                 <li>Depression</li>
                 <li>Proximal amputation level</li>
               </ul>
-            </div> {/* Close the grid container here */}
+            </div>
+          </div>
           
           <p className="mb-4">
             Each factor in this tool contributed >5% to the prediction accuracy in our machine learning model. 
@@ -679,4 +680,6 @@ const TMRPredictionTool = () => {
       </div>
     </div>
   );
-}
+};
+
+export default TMRPredictionTool;
