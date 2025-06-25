@@ -1,4 +1,4 @@
-"use client";
+fdsf"use client";
 
 import React, { useState, useEffect } from 'react';
 
@@ -165,7 +165,7 @@ const TMRPredictionTool = () => {
         newRecommendations.push("Consider smoking cessation program prior to surgery");
       }
       
-      // High pain scores (>6 considered high)
+      // High pain scores (&gt;6 considered high)
       if (painScore && parseInt(painScore) > 6) {
         riskScore += 1.5;
         newRecommendations.push("Consider multimodal pain management approach");
@@ -647,7 +647,7 @@ const TMRPredictionTool = () => {
           </div>
           
           <p className="mb-4">
-            Each factor in this tool contributed &gt;>5% to the prediction accuracy in our machine learning model. 
+            Each factor in this tool contributed &gt;5% to the prediction accuracy in our machine learning model. 
             We found that patients with multiple risk factors showed significantly higher rates of suboptimal 
             pain relief following TMR surgery. This tool synthesizes these findings to provide a practical 
             clinical decision support framework, though individual patient factors should always be considered 
@@ -658,7 +658,7 @@ const TMRPredictionTool = () => {
             <p className="font-medium text-[#0096B7]">Model Development</p>
             <p className="text-sm mt-2">
               The predictive model was developed using a Relevance Vector Machine (RVM) learning algorithm and validated through
-              cross-validation techniques. The model achieved robust predictive accuracy (AUC &gt;>0.80) for both primary
+              cross-validation techniques. The model achieved robust predictive accuracy (AUC &gt;0.80) for both primary
               and secondary TMR outcomes. Risk thresholds were established based on sensitivity and specificity analyses
               to optimize clinical decision-making.
             </p>
