@@ -586,7 +586,7 @@ const TMRPredictionTool = () => {
               Raasveld FV, Zhang Z, Johnston BR, et al. Machine Learning Approach to Predict Pain Outcomes Following Primary and Secondary Targeted Muscle Reinnervation in Amputees. Ann Surg. 2025 (In Press).
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. The model identified distinct risk profiles for primary versus secondary TMR, with several shared and procedure-specific risk factors contributing greater than 5% to prediction accuracy.
+              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. The model identified distinct risk profiles for primary versus secondary TMR, with several shared and procedure-specific risk factors contributing greater than &gt;5% to prediction accuracy.
             </p>
           </div>
 
@@ -647,7 +647,7 @@ const TMRPredictionTool = () => {
           </div>
           
           <p className="mb-4">
-            Each factor in this tool contributed >5% to the prediction accuracy in our machine learning model. 
+            Each factor in this tool contributed &gt;>5% to the prediction accuracy in our machine learning model. 
             We found that patients with multiple risk factors showed significantly higher rates of suboptimal 
             pain relief following TMR surgery. This tool synthesizes these findings to provide a practical 
             clinical decision support framework, though individual patient factors should always be considered 
@@ -658,7 +658,7 @@ const TMRPredictionTool = () => {
             <p className="font-medium text-[#0096B7]">Model Development</p>
             <p className="text-sm mt-2">
               The predictive model was developed using a Relevance Vector Machine (RVM) learning algorithm and validated through
-              cross-validation techniques. The model achieved robust predictive accuracy (AUC >0.80) for both primary
+              cross-validation techniques. The model achieved robust predictive accuracy (AUC &gt;>0.80) for both primary
               and secondary TMR outcomes. Risk thresholds were established based on sensitivity and specificity analyses
               to optimize clinical decision-making.
             </p>
