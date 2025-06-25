@@ -661,7 +661,7 @@ const TMRPredictionTool: React.FC = () => {
               <h4 className="font-bold text-[#0096B7]">Secondary TMR</h4>
               <ul className="list-disc pl-5 mt-2">
                 <li>Current smoking status</li>
-                <li>High preoperative pain scores (NRS &gt;6)</li>
+                <li>High preoperative pain scores (NRS >6)</li>
                 <li>Anxiety</li>
                 <li>Preoperative opioid use</li>
                 <li>Depression</li>
