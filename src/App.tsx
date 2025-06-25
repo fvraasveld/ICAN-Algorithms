@@ -679,8 +679,4 @@ const TMRPredictionTool = () => {
       </div>
     </div>
   );
-};
-
-export default function App() {
-  return <TMRPredictionTool />;
 }
