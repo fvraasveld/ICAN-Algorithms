@@ -8,7 +8,7 @@ interface CardProps {
   children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({ className = "", children }) => (
+const Card = ({ className = "", children }: CardProps) => (
   <div className={`bg-white rounded-lg border shadow-sm ${className}`}>{children}</div>
 );
 
