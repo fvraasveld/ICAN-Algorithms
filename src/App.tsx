@@ -644,7 +644,6 @@ const TMRPredictionTool = () => {
                 <li>Proximal amputation level</li>
               </ul>
             </div>
-          </div>
           
           <p className="mb-4">
             Each factor in this tool contributed >5% to the prediction accuracy in our machine learning model. 
