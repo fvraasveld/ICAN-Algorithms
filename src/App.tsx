@@ -2,24 +2,35 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Simple UI components (no need for external imports)
-const Card = ({ className = "", children }) => (
+// Simple UI components with proper TypeScript types
+interface CardProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const Card: React.FC<CardProps> = ({ className = "", children }) => (
   <div className={`bg-white rounded-lg border shadow-sm ${className}`}>{children}</div>
 );
 
-const CardHeader = ({ children }) => (
+const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="p-6 pb-2">{children}</div>
 );
 
-const CardTitle = ({ children }) => (
+const CardTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h3 className="text-xl font-semibold">{children}</h3>
 );
 
-const CardContent = ({ children }) => (
+const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="p-6 pt-2">{children}</div>
 );
 
-const Alert = ({ children, variant = "default", className = "" }) => {
+interface AlertProps {
+  children: React.ReactNode;
+  variant?: "default" | "success" | "warning" | "error";
+  className?: string;
+}
+
+const Alert: React.FC<AlertProps> = ({ children, variant = "default", className = "" }) => {
   const baseClasses = "rounded-md p-4 border";
   const variantClasses = {
     default: "bg-gray-100 border-gray-200",
@@ -35,17 +46,28 @@ const Alert = ({ children, variant = "default", className = "" }) => {
   );
 };
 
-const AlertTitle = ({ children }) => (
+const AlertTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h5 className="text-lg font-semibold">{children}</h5>
 );
 
-const AlertDescription = ({ children }) => (
+const AlertDescription: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="mt-2">{children}</div>
 );
 
-const TMRPredictionTool = () => {
+interface FormData {
+  tmrType: string;
+  sex: string;
+  currentSmoker: string;
+  opioidUse: string;
+  depression: string;
+  amputationLevel: string;
+  painScore: string;
+  anxiety: string;
+}
+
+const TMRPredictionTool: React.FC = () => {
   // State for form inputs
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     tmrType: "",
     sex: "",
     currentSmoker: "",
@@ -57,19 +79,19 @@ const TMRPredictionTool = () => {
   });
 
   // State for calculated risk
-  const [riskLevel, setRiskLevel] = useState("");
+  const [riskLevel, setRiskLevel] = useState<string>("");
   
   // State for recommendations
-  const [recommendations, setRecommendations] = useState([]);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
   
   // State for active tab
-  const [activeTab, setActiveTab] = useState("assessment");
+  const [activeTab, setActiveTab] = useState<string>("assessment");
   
   // State to track if all required fields are filled
-  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
+  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState<boolean>(false);
 
   // Handle input changes
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -124,7 +146,7 @@ const TMRPredictionTool = () => {
     }
     
     let riskScore = 0;
-    let newRecommendations = [];
+    let newRecommendations: string[] = [];
     
     // Primary TMR risk factors
     if (tmrType === "primary") {
@@ -165,7 +187,7 @@ const TMRPredictionTool = () => {
         newRecommendations.push("Consider smoking cessation program prior to surgery");
       }
       
-      // High pain scores (&gt;6 considered high)
+      // High pain scores (>6 considered high)
       if (painScore && parseInt(painScore) > 6) {
         riskScore += 1.5;
         newRecommendations.push("Consider multimodal pain management approach");
@@ -316,19 +338,21 @@ const TMRPredictionTool = () => {
                     </select>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Sex*</label>
-                    <select 
-                      name="sex"
-                      value={formData.sex}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </select>
-                  </div>
+                  {formData.tmrType === "primary" && (
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Sex*</label>
+                      <select 
+                        name="sex"
+                        value={formData.sex}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                      >
+                        <option value="">Select...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-medium mb-1">Current Smoker*</label>
@@ -586,7 +610,7 @@ const TMRPredictionTool = () => {
               Raasveld FV, Zhang Z, Johnston BR, et al. Machine Learning Approach to Predict Pain Outcomes Following Primary and Secondary Targeted Muscle Reinnervation in Amputees. Ann Surg. 2025 (In Press).
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. The model identified distinct risk profiles for primary versus secondary TMR, with several shared and procedure-specific risk factors contributing greater than &gt;5% to prediction accuracy.
+              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. The model identified distinct risk profiles for primary versus secondary TMR, with several shared and procedure-specific risk factors contributing greater than 5% to prediction accuracy.
             </p>
           </div>
 
@@ -647,7 +671,7 @@ const TMRPredictionTool = () => {
           </div>
           
           <p className="mb-4">
-            Each factor in this tool contributed &gt;5% to the prediction accuracy in our machine learning model. 
+            Each factor in this tool contributed greater than 5% to the prediction accuracy in our machine learning model. 
             We found that patients with multiple risk factors showed significantly higher rates of suboptimal 
             pain relief following TMR surgery. This tool synthesizes these findings to provide a practical 
             clinical decision support framework, though individual patient factors should always be considered 
@@ -658,7 +682,7 @@ const TMRPredictionTool = () => {
             <p className="font-medium text-[#0096B7]">Model Development</p>
             <p className="text-sm mt-2">
               The predictive model was developed using a Relevance Vector Machine (RVM) learning algorithm and validated through
-              cross-validation techniques. The model achieved robust predictive accuracy (AUC &gt;0.80) for both primary
+              cross-validation techniques. The model achieved robust predictive accuracy (AUC greater than 0.80) for both primary
               and secondary TMR outcomes. Risk thresholds were established based on sensitivity and specificity analyses
               to optimize clinical decision-making.
             </p>
