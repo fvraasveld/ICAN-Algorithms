@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TMRPredictionTool from './components/TMRPredictionTool';
 import CentralPainCriteriaAssessment from './components/CentralizedPainCriteria';
-import TMRCentersMap from './components/TMRLiteratureMap';components/TMRLiteratureMap';
+import TMRCentersMap from './components/TMRLiteratureMap';
 
 const ICANAlgorithmsLanding = () => {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
