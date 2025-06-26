@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 
+interface FormData {
+  tmrType: string;
+  sex: string;
+  currentSmoker: string;
+  opioidUse: string;
+  depression: string;
+  amputationLevel: string;
+  painScore: string;
+  anxiety: string;
+}
+
 const TMRPredictionTool = () => {
   // State for form inputs
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     tmrType: "",
     sex: "",
     currentSmoker: "",
@@ -17,7 +28,7 @@ const TMRPredictionTool = () => {
   const [riskLevel, setRiskLevel] = useState("");
   
   // State for recommendations
-  const [recommendations, setRecommendations] = useState([]);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
   
   // State for active tab
   const [activeTab, setActiveTab] = useState("assessment");
@@ -81,7 +92,7 @@ const TMRPredictionTool = () => {
     }
     
     let riskScore = 0;
-    let newRecommendations = [];
+    let newRecommendations: string[] = [];
     
     // Primary TMR risk factors
     if (tmrType === "primary") {
