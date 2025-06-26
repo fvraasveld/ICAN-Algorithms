@@ -26,7 +26,7 @@ const TMRPredictionTool = () => {
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
 
   // Handle input changes
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
