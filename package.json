@@ -8,6 +8,9 @@
     "starter"
   ],
   "main": "src/index.tsx",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "loader-utils": "3.2.1",
     "react": "18.2.0",
