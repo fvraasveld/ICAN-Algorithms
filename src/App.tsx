@@ -15,7 +15,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Predicting outcomes following Targeted Muscle Reinnervation (TMR) in amputee patients',
       category: 'Surgical Planning',
       status: 'Available',
-      icon: '🧠'
+      icon: '🎯'
     },
     {
       id: 'central-pain',
@@ -23,7 +23,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
       category: 'Surgical Planning',
       status: 'Available', 
-      icon: '🧠'
+      icon: '⚡'
     },
     {
       id: 'knee-arthroplasty',
@@ -31,7 +31,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Surgical management of peripheral nerve symptoms following knee arthroplasty',
       category: 'Surgical Planning',
       status: 'Under Construction',
-      icon: '🧠'
+      icon: '🦵'
     },
     {
       id: 'tmr-hand',
@@ -39,7 +39,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Specialized TMR assessment and planning for hand amputations',
       category: 'Surgical Planning',
       status: 'Available',
-      icon: '🧠'
+      icon: '✋'
     },
     {
       id: 'tmr-map',
@@ -47,7 +47,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Interactive global map of TMR research centers and publications',
       category: 'Education & Training',
       status: 'Available',
-      icon: '🧠'
+      icon: '🗺️'
     }
   ];
 
