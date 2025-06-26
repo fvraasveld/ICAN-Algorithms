@@ -47,22 +47,22 @@ const TMRPredictionTool = () => {
     // Different required fields based on TMR type
     if (tmrType === "primary") {
       setAllRequiredFieldsFilled(
-        tmrType !== "" && 
-        sex !== "" && 
-        currentSmoker !== "" && 
-        opioidUse !== "" && 
-        depression !== "" && 
-        amputationLevel !== ""
+        Boolean(tmrType) && 
+        Boolean(sex) && 
+        Boolean(currentSmoker) && 
+        Boolean(opioidUse) && 
+        Boolean(depression) && 
+        Boolean(amputationLevel)
       );
     } else if (tmrType === "secondary") {
       setAllRequiredFieldsFilled(
-        tmrType !== "" && 
-        currentSmoker !== "" && 
-        opioidUse !== "" && 
-        depression !== "" && 
-        amputationLevel !== "" && 
-        painScore !== "" && 
-        anxiety !== ""
+        Boolean(tmrType) && 
+        Boolean(currentSmoker) && 
+        Boolean(opioidUse) && 
+        Boolean(depression) && 
+        Boolean(amputationLevel) && 
+        Boolean(painScore) && 
+        Boolean(anxiety)
       );
     } else {
       setAllRequiredFieldsFilled(false);
