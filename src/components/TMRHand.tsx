@@ -138,19 +138,16 @@ const HandTMRAlgorithm = () => {
         "Limit dissection to prevent injury to adjacent structures"
       ];
       
-      // Add prosthetic-specific notes
       if (prostheticNeeds === "yes") {
         newRecommendations.additionalNotes.push("Coordinate with prosthetist for optimal positioning");
       }
       
-      // Add pain-specific notes
       if (neuromaPain === "severe") {
         newRecommendations.additionalNotes.push("Consider combined TMR with targeted sensory reinnervation");
       }
       
       newRecommendations.alternatives = "Consider simple neuroma excision or RPNI technique if intrinsic muscles not available";
     }
-    
     // PIP Amputation
     else if (amputationLevel === "pip") {
       newRecommendations.donorNerve = "Digital nerve (proximal stump)";
@@ -161,7 +158,6 @@ const HandTMRAlgorithm = () => {
         "Ensure tension-free coaptation"
       ];
       
-      // Add early vs. late timing notes
       if (timeSinceAmputation === "early") {
         newRecommendations.additionalNotes.push("Primary TMR recommended during initial surgery");
       } else {
@@ -170,7 +166,6 @@ const HandTMRAlgorithm = () => {
       
       newRecommendations.alternatives = "Consider RPNI or nerve-to-nerve repair if functional recovery is priority";
     }
-    
     // Ray Amputation
     else if (amputationLevel === "ray") {
       if (specificDigit === "thumb") {
@@ -185,7 +180,6 @@ const HandTMRAlgorithm = () => {
         if (motorFunction === "impaired") {
           newRecommendations.additionalNotes.push("Consider additional motor transfer to enhance grip function");
         }
-        
       } else if (specificDigit === "index") {
         newRecommendations.donorNerve = "Proper digital nerve of index finger";
         newRecommendations.targetMuscle = "First dorsal interosseous";
@@ -194,7 +188,6 @@ const HandTMRAlgorithm = () => {
           "Consider volar approach for tendon management in the same setting",
           "Minimize dissection of the first web space"
         ];
-        
       } else if (specificDigit === "middle") {
         newRecommendations.donorNerve = "Proper digital nerve of middle finger";
         newRecommendations.targetMuscle = "Second dorsal or palmar interosseous";
@@ -203,7 +196,6 @@ const HandTMRAlgorithm = () => {
           "Evaluate adjacent metacarpal integrity",
           "Consider potential for tenodesis effect during nerve transfer"
         ];
-        
       } else if (specificDigit === "ring") {
         newRecommendations.donorNerve = "Proper digital nerve of ring finger";
         newRecommendations.targetMuscle = "Third dorsal or palmar interosseous";
@@ -212,7 +204,6 @@ const HandTMRAlgorithm = () => {
           "Minimize dissection of hypothenar muscles",
           "Consider ulnar nerve branches as alternative"
         ];
-        
       } else if (specificDigit === "small") {
         newRecommendations.donorNerve = "Proper digital nerve of small finger";
         newRecommendations.targetMuscle = "Hypothenar muscles (ADM or ODM)";
@@ -229,7 +220,6 @@ const HandTMRAlgorithm = () => {
       
       newRecommendations.alternatives = "Ray transposition may be considered for index or small finger";
     }
-    
     // Transmetacarpal Amputation
     else if (amputationLevel === "transmetacarpal") {
       newRecommendations.donorNerve = "Common or proper digital nerves";
@@ -251,7 +241,6 @@ const HandTMRAlgorithm = () => {
       
       newRecommendations.alternatives = "Consider primary closure with muscle burial if intrinsic muscles unavailable";
     }
-    
     // Carpometacarpal Amputation
     else if (amputationLevel === "carpometacarpal") {
       newRecommendations.donorNerve = "Median and ulnar nerve branches";
@@ -298,7 +287,6 @@ const HandTMRAlgorithm = () => {
       <div className="bg-[#0096B7] text-white p-5 rounded-t-lg shadow">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            {/* Logo with white border - no rounded edges */}
             <div className="bg-white p-0.5 border-0.5 border-white mr-4">
               <img
                 src="https://i.ibb.co/jv6z7D3d/ICAN-logo-copy-2.png"
@@ -609,8 +597,7 @@ const HandTMRAlgorithm = () => {
           </h2>
           <p className="mb-4">
             The Hand TMR Surgical Decision Algorithm provides a standardized framework for 
-            approaching targeted muscle reinnervation in hand and digital amputations based on 
-            anatomical level, patient-specific factors, and surgical goals.
+            approaching targeted muscle reinnervation in hand and digital amputations.
           </p>
 
           <h3 className="font-bold mt-6 mb-2 text-lg">
@@ -618,67 +605,43 @@ const HandTMRAlgorithm = () => {
           </h3>
           <ol className="list-decimal pl-5 space-y-2">
             <li>
-              <span className="font-medium">
-                DIP Amputation
-              </span>
+              <span className="font-medium">DIP Amputation</span>
               <p className="text-sm text-gray-600 mt-1">
-                Distal interphalangeal amputations typically involve proper digital nerves reinnervating 
-                nearby intrinsic muscles with an emphasis on minimal dissection and preservation of joint function.
+                Digital nerve reinnervation with minimal dissection.
               </p>
             </li>
             <li>
-              <span className="font-medium">
-                PIP Amputation
-              </span>
+              <span className="font-medium">PIP Amputation</span>
               <p className="text-sm text-gray-600 mt-1">
-                Proximal interphalangeal amputations require careful preservation of the extensor mechanism 
-                with nerve transfer to appropriate intrinsic muscles while protecting flexor tendons.
+                Intrinsic muscle targeting with extensor preservation.
               </p>
             </li>
             <li>
-              <span className="font-medium">
-                Ray Amputation
-              </span>
+              <span className="font-medium">Ray Amputation</span>
               <p className="text-sm text-gray-600 mt-1">
-                Complete digit amputations necessitate digit-specific approaches, with donor selection 
-                based on the specific digit involved and remaining intrinsic muscle function.
+                Digit-specific approaches based on anatomy.
               </p>
             </li>
             <li>
-              <span className="font-medium">
-                Transmetacarpal Amputation
-              </span>
+              <span className="font-medium">Transmetacarpal Amputation</span>
               <p className="text-sm text-gray-600 mt-1">
-                Amputations through the metacarpals require thorough mapping of motor entry points and 
-                careful consideration of remaining muscle function for donor-target matching.
+                Motor point mapping and intrinsic muscle preservation.
               </p>
             </li>
             <li>
-              <span className="font-medium">
-                Carpometacarpal Amputation
-              </span>
+              <span className="font-medium">Carpometacarpal Amputation</span>
               <p className="text-sm text-gray-600 mt-1">
-                Proximal hand amputations often require forearm muscle targets with consideration for 
-                median and ulnar nerve branches as donors. Technical complexity increases at this level.
+                Forearm muscle targets with complex nerve considerations.
               </p>
             </li>
           </ol>
-
-          <h3 className="font-bold mt-6 mb-2 text-lg">Clinical Application</h3>
-          <p className="mb-4">
-            This tool is intended for reconstructive surgeons to guide preoperative planning and 
-            intraoperative decision-making for TMR in hand and digital amputations. The algorithm 
-            integrates patient-specific factors to provide personalized recommendations.
-          </p>
 
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-[#0096B7]">
             <h4 className="font-bold text-[#0096B7]">
               Interdisciplinary Care for Amputees Network
             </h4>
             <p className="mt-1 text-sm">
-              ICAN Algorithms provide evidence-based decision support tools for
-              clinicians managing complex conditions in amputees,
-              guiding individualized treatment and rehabilitation approaches.
+              Evidence-based decision support for hand TMR procedures.
             </p>
           </div>
         </div>
@@ -692,94 +655,23 @@ const HandTMRAlgorithm = () => {
 
           <div className="bg-blue-50 p-4 rounded border-l-4 border-[#0096B7] mb-4">
             <p className="font-medium">
-              This tool is based on a comprehensive systematic review of TMR in hand and digital 
-              amputations, including 35 studies with anatomical feasibility studies, technical notes, 
-              case reports, and clinical series.
+              Based on systematic review of 35 hand TMR studies including anatomical feasibility studies and clinical series.
             </p>
           </div>
 
           <h3 className="font-bold mt-4 mb-2">Key References</h3>
-          <div className="overflow-y-auto max-h-96 bg-gray-50 p-4 rounded border text-sm">
+          <div className="overflow-y-auto max-h-64 bg-gray-50 p-4 rounded border text-sm">
             <ol className="list-decimal pl-5 space-y-1">
-              <li>
-                Fowler TP. Targeted muscle reinnervation in the hand: a technical roadmap. J Hand Surg Am. 2022;47(3):287.e1-287.e8.
-              </li>
-              <li>
-                Daugherty THF, Mailey BA, Bueno RA, Neumeister MW. Targeted muscle reinnervation in the hand: an anatomical feasibility study for neuroma treatment and prevention. J Hand Surg Am. 2020;45(9):802-812.
-              </li>
-              <li>
-                Daugherty THF, Bueno RA, Neumeister MW. Novel use of targeted muscle reinnervation in the hand for treatment of recurrent symptomatic neuromas following digit amputations. Plast Reconstr Surg Glob Open. 2019;7(8):e2376.
-              </li>
-              <li>
-                Wimalawansa SM, Zimmerman RM, Schoenbrunner AR, et al. Targeted muscle reinnervation in partial hand amputations. Plast Reconstr Surg Glob Open. 2019;7(3):e2176.
-              </li>
-              <li>
-                Cox DL, Subhawong T, Thoder JJ. Treatment of refractory radial sensory neuroma with function-sparing targeted muscle reinnervation. J Hand Surg Am. 2020;45(10):967.e1-967.e5.
-              </li>
-              <li>
-                Chepla KJ, Wu-Fienberg Y. Targeted muscle reinnervation for partial hand amputation. Hand Clin. 2022;38(1):147-153.
-              </li>
-              <li>
-                Elmaraghi S, Tung TH. Targeted muscle reinnervation in the hand: treatment and prevention of pain after ray amputation. J Hand Surg Am. 2021;46(3):249.e1-249.e7.
-              </li>
-              <li>
-                Ramirez FD, Schauer K, Kuntz A, et al. Mapping the dorsal interossei of the hand: anatomical and technical considerations for targeted muscle reinnervation. J Hand Surg Am. 2021;46(8):699.e1-699.e8.
-              </li>
-              <li>
-                König PS, Hierner R, Bömmer J, et al. Anatomical relationships of the deep branch of the ulnar nerve to the motor entry points in the hypothenar muscles: application to targeted muscle reinnervation. J Hand Surg Eur Vol. 2021;46(1):85-90.
-              </li>
-              <li>
-                Tintle SM, Chandler PJ, Akhtar S, et al. The hybrid TMR-RPNI procedure: A novel approach to preventing and treating symptomatic neuromas in partial hand amputations. Tech Hand Up Extrem Surg. 2020;24(4):169-173.
-              </li>
+              <li>Fowler TP. Targeted muscle reinnervation in the hand: a technical roadmap. J Hand Surg Am. 2022;47(3):287.e1-287.e8.</li>
+              <li>Daugherty THF, Mailey BA, Bueno RA, Neumeister MW. Targeted muscle reinnervation in the hand: an anatomical feasibility study. J Hand Surg Am. 2020;45(9):802-812.</li>
+              <li>Chepla KJ, Wu-Fienberg Y. Targeted muscle reinnervation for partial hand amputation. Hand Clin. 2022;38(1):147-153.</li>
             </ol>
           </div>
 
           <h3 className="font-bold mt-6 mb-2">Evidence Summary</h3>
           <p className="mb-4">
-            The systematic review identified several key findings related to hand TMR techniques that inform this decision algorithm:
+            Hand TMR demonstrates 83-97% pain reduction rates with digit-specific approaches based on anatomical level and remaining motor function.
           </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-gray-50 p-4 rounded border">
-              <h4 className="font-bold text-[#0096B7]">Anatomical Considerations</h4>
-              <ul className="list-disc pl-5 mt-2">
-                <li>Motor entry points have been mapped for intrinsic hand muscles</li>
-                <li>Digital nerves provide adequate donor axons for reinnervation</li>
-                <li>Intrinsic muscles are viable targets in partial hand amputations</li>
-                <li>Muscle preservation is critical for optimal outcomes</li>
-                <li>Surgical approach depends on amputation level and remaining anatomy</li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 p-4 rounded border">
-              <h4 className="font-bold text-[#0096B7]">Clinical Outcomes</h4>
-              <ul className="list-disc pl-5 mt-2">
-                <li>Primary TMR reduces neuroma formation rates</li>
-                <li>Secondary TMR effectively treats established neuromas</li>
-                <li>Pain reduction achieved in 83-97% of hand TMR cases</li>
-                <li>Combined TMR-RPNI approach beneficial in complex cases</li>
-                <li>Preserved motor function maintained after appropriate TMR</li>
-              </ul>
-            </div>
-          </div>
-          
-          <p className="mb-4">
-            The evidence demonstrates that TMR in hand and digital amputations requires amputation-specific 
-            approaches with careful consideration of donor-target matching based on anatomical level, 
-            remaining motor function, and surgical goals. This algorithm synthesizes the current evidence 
-            to guide optimal surgical decision-making.
-          </p>
-          
-          <h3 className="font-bold mt-4 mb-2">Decision Algorithm Development</h3>
-          <div className="bg-blue-50 p-4 rounded border mt-6">
-            <p className="font-medium text-[#0096B7]">Methodology</p>
-            <p className="text-sm mt-2">
-              This algorithm was developed through systematic review of all published literature on 
-              TMR and related techniques in hand and digital amputations. Studies were evaluated for 
-              level of evidence, surgical approach, donor/target selection, and clinical outcomes. 
-              The algorithm was refined through expert consensus and review of anatomical studies 
-              mapping motor entry points and nerve pathways in the hand.
-            </p>
-          </div>
         </div>
       )}
 
