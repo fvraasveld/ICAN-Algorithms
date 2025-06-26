@@ -199,7 +199,7 @@ const InteractiveMap: React.FC<{ centers: Center[] }> = ({ centers }) => {
   );
 };
 
-const TMRCentersMap: React.FC = () => {
+const TMRLiteratureMap: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("map");
   const [selectedRegion, setSelectedRegion] = useState<string>("All");
 
@@ -524,4 +524,4 @@ const TMRCentersMap: React.FC = () => {
   );
 };
 
-export default TMRCentersMap;
+export default TMRLiteratureMap;
