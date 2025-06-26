@@ -16,7 +16,7 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'central-pain',
-      title: 'Central Pain Assessment Following PNI',
+      title: 'Criteria for Centralized Pain Following PNI',
       description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
       category: 'Surgical Planning',
       status: 'Available', 
@@ -24,7 +24,7 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'knee-arthroplasty',
-      title: 'Knee Arthroplasty Nerve Management',
+      title: 'Nerve Management Following Knee Arthroplasty',
       description: 'Surgical management of peripheral nerve symptoms following knee arthroplasty',
       category: 'Surgical Planning',
       status: 'Under Construction',
@@ -32,7 +32,7 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'tmr-hand',
-      title: 'TMR Algorithm for Hand',
+      title: 'TMR Algorithm for the Hand',
       description: 'Specialized TMR assessment and planning for hand amputations',
       category: 'Surgical Planning',
       status: 'Under Construction',
@@ -40,7 +40,7 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'tmr-map',
-      title: 'TMR Map',
+      title: 'TMR World Map',
       description: 'Interactive educational mapping tool for Targeted Muscle Reinnervation procedures',
       category: 'Education & Training',
       status: 'Under Construction',
@@ -228,7 +228,7 @@ const ICANAlgorithmsLanding = () => {
           <div>
             <h3 className="text-xl font-bold text-[#0096B7] mb-4">About ICAN</h3>
             <p className="text-gray-700 mb-4">
-              The Interdisciplinary Care for Amputees Network (ICAN) is dedicated to improving 
+              The Interdisciplinary Care for Amputees Network (ICAN) / Algorithms is dedicated to improving 
               outcomes for amputees through evidence-based research, clinical protocols, and 
               educational initiatives.
             </p>
