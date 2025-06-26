@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+interface CriteriaState {
+  documentedPNI: string;
+  chronicPain: string;
+  hypersensitivity: string;
+  moodCognitive: string;
+  nerveBlockPerformed: string;
+  nerveBlockResponse: string;
+}
+
 const CentralPainCriteriaAssessment = () => {
   // State for criteria inputs
-  const [criteria, setCriteria] = useState({
+  const [criteria, setCriteria] = useState<CriteriaState>({
     documentedPNI: "",
     chronicPain: "",
     hypersensitivity: "",
@@ -12,19 +21,19 @@ const CentralPainCriteriaAssessment = () => {
   });
 
   // State for recommendations
-  const [recommendations, setRecommendations] = useState([]);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
 
   // State for diagnosis
-  const [diagnosis, setDiagnosis] = useState("");
+  const [diagnosis, setDiagnosis] = useState<string>("");
 
   // State for active tab
-  const [activeTab, setActiveTab] = useState("criteria");
+  const [activeTab, setActiveTab] = useState<string>("criteria");
 
   // State to track if criteria are filled out
-  const [criteriaFilled, setCriteriaFilled] = useState(false);
+  const [criteriaFilled, setCriteriaFilled] = useState<boolean>(false);
 
   // Handle input changes
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setCriteria({
       ...criteria,
@@ -615,162 +624,6 @@ const CentralPainCriteriaAssessment = () => {
             <p className="text-sm text-gray-600 mt-1">
               Clinical Journal of Pain (Under Review)
             </p>
-          </div>
-
-          <h3 className="font-bold mt-6 mb-2">
-            References included in the Systematic Review
-          </h3>
-          <div className="overflow-y-auto max-h-96 bg-gray-50 p-4 rounded border text-sm">
-            <ol className="list-decimal pl-5 space-y-1">
-              <li>
-                Beales D, Fary R, Little C, et al. Characterisation of pain in
-                people with hereditary neuropathy with liability to pressure
-                palsy. J Neurol. 2017;264(12):2464-2471.
-              </li>
-              <li>
-                Beisheim-Ryan EL, Mitrache MV, Anandan S, et al. Pain and
-                sensory function in amputees. J Pain. 2023;24(5):914-926.
-              </li>
-              <li>
-                Brazenor GA, Malham GM, Teddy PJ. Can Central Sensitization
-                After Injury Persist as an Autonomous Pain Generator? Pain Med.
-                2022;23(7):1283-1298.
-              </li>
-              <li>
-                de-la-Llave-Rincón AI, Fernández-de-las-Peñas C,
-                Fernández-Carnero J, et al. New advances in the mechanisms and
-                etiology of carpal tunnel syndrome. Disclose Rehabil.
-                2012;34(10):809-817.
-              </li>
-              <li>
-                Defrin R, Devor M, Brill S. Tactile allodynia in patients with
-                lumbar radicular pain (sciatica). Pain. 2014;155(12):2551-2559.
-              </li>
-              <li>
-                Essick GK. Psychophysical assessment of patients with
-                posttraumatic neuropathic trigeminal pain. J Orofac Pain.
-                2004;18(4):345-354.
-              </li>
-              <li>
-                Feng B, Gong C, You L, et al. Central Sensitization in Patients
-                with Chronic Pain Secondary to Carpal Tunnel Syndrome and
-                Determinants. J Pain Res. 2023;16:4353-4366.
-              </li>
-              <li>
-                Fernández-de-las-Peñas C, Madeleine P, Martínez-Perez A, et al.
-                Pressure pain sensitivity topographical maps reveal bilateral
-                hyperalgesia of the hands in patients with unilateral carpal
-                tunnel syndrome. Arthritis Care Res. 2010;62(8):1055-1064.
-              </li>
-              <li>
-                Fernández-De-Las-Peñas C, De La Llave-Rincón AI,
-                Fernández-Carnero J, et al. Bilateral widespread mechanical pain
-                sensitivity in carpal tunnel syndrome: evidence of central
-                processing in unilateral neuropathy. Brain.
-                2009;132(6):1472-1479.
-              </li>
-              <li>
-                Giummarra MJ, Bradshaw JL, Nicholls ME, et al. A sleeping
-                phantom leg awakened following hemicolectomy, thrombosis, and
-                chemotherapy: a case report. J Med Case Rep. 2011;5:203.
-              </li>
-              <li>
-                Gottrup H, Kristensen AD, Bach FW, et al. Aftersensations in
-                experimental and clinical hypersensitivity. Pain.
-                2003;103(1-2):57-64.
-              </li>
-              <li>
-                Haroutounian S, Nikolajsen L, Bendtsen TF, et al. Primary
-                afferent input critical for maintaining spontaneous pain in
-                peripheral neuropathy. Pain. 2014;155(7):1272-1279.
-              </li>
-              <li>
-                Hebert A, MacDermid J, Harris J, et al. How should we define and
-                assess painful sensitivity in the hand? An international
-                e-Delphi study. J Hand Ther. 2024;37(3):355-362.
-              </li>
-              <li>
-                Mailis A, Amani N, Umana M, et al. Effect of intravenous sodium
-                amytal on cutaneous sensory abnormalities, spontaneous pain and
-                algometric pain pressure thresholds in neuropathic pain
-                patients: A placebo-controlled study. Pain. 1997;70(1):69-81.
-              </li>
-              <li>
-                Manfuku M, Nishigami T, Mibu A, et al. Predictors of persistent
-                post-surgical pain intensity and interference at 1 year after
-                breast cancer surgery: assessing central sensitization, central
-                sensitivity symptoms, and psychological factors. Breast Cancer.
-                2023;30(2):271-281.
-              </li>
-              <li>
-                Martinez V, Ben Ammar S, Judet T, et al. Risk factors predictive
-                of chronic postsurgical neuropathic pain: the value of the iliac
-                crest bone harvest model. Pain. 2012;153(7):1478-1483.
-              </li>
-              <li>
-                Matesanz-Garcia L, Cuenca-Martínez F, Simón AI, et al. Signs
-                Indicative of Central Sensitization Are Present but Not
-                Associated with the Central Sensitization Inventory in Patients
-                with Focal Nerve Injury. J Clin Med. 2022;11(4):1075.
-              </li>
-              <li>
-                Mustonen L, Aho T, Harno H, et al. What makes surgical nerve
-                injury painful? A 4-year to 9-year follow-up of patients with
-                intercostobrachial nerve resection in women treated for breast
-                cancer. Pain. 2019;160(1):246-256.
-              </li>
-              <li>
-                Osborne NR, Anastakis DJ, Kim JA, et al. Carpal tunnel surgery
-                dampens thalamocortical and normalizes corticocortical
-                functional connectivity. Brain Commun. 2022;4(5):fcac237.
-              </li>
-              <li>
-                Prip K, Persson AL. Clinical findings in men with chronic pain
-                after falanga torture. Clin J Pain. 2008;24(2):135-141.
-              </li>
-              <li>
-                Roh YH, Kim S, Gong HS, et al. Influence of centrally mediated
-                symptoms on functional outcomes after carpal tunnel release. Sci
-                Rep. 2018;8(1):11134.
-              </li>
-              <li>
-                Sachau J, Kersebaum D, Hüllemann P, et al. The association of
-                self-reported symptoms of central sensitization and sleep
-                disturbances in neuropathic pain. Pain Rep. 2023;8(5):e1098.
-              </li>
-              <li>
-                Schmidt H, Drusko A, Renz MP, et al. Application of the grading
-                system for "nociplastic pain" in chronic primary and chronic
-                secondary pain conditions: a field study. Pain.
-                2025;166(1):193-204.
-              </li>
-              <li>
-                Schwartzman RJ, Grothusen JR, Kiefer TR. Neuropathic central
-                pain: epidemiology, etiology, and treatment options. Arch
-                Neurol. 2001;58(10):1547-1550.
-              </li>
-              <li>
-                Schwartzman RJ, Maleki J. Postinjury neuropathic pain syndromes.
-                Med Clin North Am. 1999;83(3):597-626.
-              </li>
-              <li>
-                Sobeeh MG, Ghozy S, Elshazli RM, et al. Pain mechanisms in
-                carpal tunnel syndrome: a systematic review and meta-analysis of
-                quantitative sensory testing outcomes. Pain.
-                2022;163(10):e1054-e1094.
-              </li>
-              <li>
-                Sunder RA, Toshniwal G, Dureja GP. Ketamine as an adjuvant in
-                sympathetic blocks for management of central sensitization
-                following peripheral nerve injury. J Brachial Plex Peripher
-                Nerve Inj. 2008;3:22.
-              </li>
-              <li>
-                Zanette G, Cacciatori C, Tamburin S. Central sensitization in
-                carpal tunnel syndrome with extraterritorial spread of sensory
-                symptoms. Pain. 2010;148(2):227-236.
-              </li>
-            </ol>
           </div>
 
           <h3 className="font-bold mt-6 mb-2">Evidence Summary</h3>
