@@ -2,39 +2,11 @@ import React, { useState } from 'react';
 
 const TMRHand = () => {
   const [activeTab, setActiveTab] = useState<string>("assessment");
-  const [amputationLevel, setAmputationLevel] = useState<string>("");
-  const [specificDigit, setSpecificDigit] = useState<string>("");
-
-  const handleAmputationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setAmputationLevel(e.target.value);
-    if (e.target.value !== "ray") {
-      setSpecificDigit("");
-    }
-  };
-
-  const getRecommendation = () => {
-    if (!amputationLevel) return "Please select amputation level";
-    
-    if (amputationLevel === "dip") {
-      return "DIP Amputation: Digital nerve to intrinsic muscle with dorsal approach";
-    } else if (amputationLevel === "pip") {
-      return "PIP Amputation: Digital nerve to interossei with mid-lateral approach";
-    } else if (amputationLevel === "ray") {
-      if (!specificDigit) return "Please select specific digit";
-      return `Ray Amputation (${specificDigit}): Proper digital nerve to appropriate intrinsic muscle`;
-    } else if (amputationLevel === "transmetacarpal") {
-      return "Transmetacarpal: Common digital nerves to remaining intrinsic muscles";
-    } else if (amputationLevel === "carpometacarpal") {
-      return "Carpometacarpal: Median/ulnar branches to forearm muscles";
-    }
-    
-    return "";
-  };
 
   return (
     <div className="w-full max-w-6xl mx-auto">
       <div className="bg-yellow-50 border border-yellow-200 p-3 mb-3 text-sm text-center text-yellow-800 rounded">
-        <strong>Note:</strong> This tool should be used as a supplement to, not a replacement for, clinical judgment.
+        <strong>Note:</strong> This tool is currently under construction.
       </div>
 
       <div className="bg-[#0096B7] text-white p-5 rounded-t-lg shadow">
@@ -75,73 +47,17 @@ const TMRHand = () => {
         </button>
       </div>
 
-      {activeTab === "assessment" && (
-        <div className="bg-gray-50 p-6 border-l border-r border-b rounded-b-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded shadow">
-              <h2 className="text-xl font-bold mb-4 text-[#0096B7]">Patient Assessment</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Amputation Level</label>
-                  <select
-                    value={amputationLevel}
-                    onChange={handleAmputationChange}
-                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                  >
-                    <option value="">Select...</option>
-                    <option value="dip">DIP Amputation</option>
-                    <option value="pip">PIP Amputation</option>
-                    <option value="ray">Ray Amputation</option>
-                    <option value="transmetacarpal">Transmetacarpal Amputation</option>
-                    <option value="carpometacarpal">Carpometacarpal Amputation</option>
-                  </select>
-                </div>
-
-                {amputationLevel === "ray" && (
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Specific Digit</label>
-                    <select
-                      value={specificDigit}
-                      onChange={(e) => setSpecificDigit(e.target.value)}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="thumb">Thumb</option>
-                      <option value="index">Index Finger</option>
-                      <option value="middle">Middle Finger</option>
-                      <option value="ring">Ring Finger</option>
-                      <option value="small">Small Finger</option>
-                    </select>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded shadow">
-              <h2 className="text-xl font-bold mb-4 text-[#0096B7]">TMR Recommendation</h2>
-              <div className="p-4 bg-gray-50 rounded border">
-                <p className="text-gray-700">{getRecommendation()}</p>
-              </div>
-            </div>
+      <div className="bg-gray-50 p-6 border-l border-r border-b rounded-b-lg">
+        <div className="text-center py-12">
+          <div className="bg-yellow-100 border-2 border-yellow-400 rounded-lg p-8 max-w-md mx-auto">
+            <div className="text-6xl mb-4">🚧</div>
+            <h3 className="text-xl font-bold text-yellow-800 mb-2">Under Construction</h3>
+            <p className="text-yellow-700">
+              The Hand TMR Algorithm is currently being developed and will be available soon.
+            </p>
           </div>
         </div>
-      )}
-
-      {activeTab === "about" && (
-        <div className="bg-white p-6 border-l border-r border-b rounded-b-lg">
-          <h2 className="text-xl font-bold mb-4 text-[#0096B7]">About This Tool</h2>
-          <p className="mb-4">
-            The Hand TMR Surgical Decision Algorithm provides a standardized framework for 
-            approaching targeted muscle reinnervation in hand and digital amputations.
-          </p>
-          
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-[#0096B7]">
-            <h4 className="font-bold text-[#0096B7]">Interdisciplinary Care for Amputees Network</h4>
-            <p className="mt-1 text-sm">Evidence-based decision support for hand TMR procedures.</p>
-          </div>
-        </div>
-      )}
+      </div>
 
       <div className="bg-gray-50 p-4 mt-6 rounded text-sm text-gray-600 border">
         <div className="flex justify-between items-center">
@@ -158,4 +74,4 @@ const TMRHand = () => {
   );
 };
 
-export default HandTMRAlgorithm;
+export default TMRHand;
