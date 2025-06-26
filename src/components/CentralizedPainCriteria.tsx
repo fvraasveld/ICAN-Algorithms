@@ -9,7 +9,7 @@ interface CriteriaState {
   nerveBlockResponse: string;
 }
 
-const CentralPainCriteriaAssessment = () => {
+const CentralizedPainCriteria = () => {
   // State for criteria inputs
   const [criteria, setCriteria] = useState<CriteriaState>({
     documentedPNI: "",
@@ -659,4 +659,4 @@ const CentralPainCriteriaAssessment = () => {
   );
 };
 
-export default CentralPainCriteriaAssessment;
+export default CentralizedPainCriteria;
