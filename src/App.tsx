@@ -33,8 +33,8 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'tmr-hand',
-      title: 'TMR Algorithm for Hand',
-      description: 'Specialized TMR assessment and planning for hand amputations',
+      title: 'Roadmap for TMR in the Hand',
+      description: 'Targeted Muscle Reinnervation (TMR) assessment and planning for hand amputations',
       category: 'Surgical Planning',
       status: 'Under Construction',
       icon: '✋'
