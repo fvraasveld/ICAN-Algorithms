@@ -18,7 +18,7 @@ interface Recommendations {
   alternatives: string;
 }
 
-const HandTMRAlgorithm = () => {
+const TMRHand = () => {
   const [patientData, setPatientData] = useState<PatientData>({
     amputationLevel: "",
     specificDigit: "",
@@ -459,4 +459,4 @@ const HandTMRAlgorithm = () => {
   );
 };
 
-export default HandTMRAlgorithm;
+export default TMRHand;
