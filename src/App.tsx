@@ -1,73 +1,8 @@
-"use client";
+import React, { useState, useEffect } from "react";
 
-import React, { useState, useEffect } from 'react';
-
-// Simple UI components with proper TypeScript types
-interface CardProps {
-  className?: string;
-  children: React.ReactNode;
-}
-
-const Card = ({ className = "", children }: CardProps) => (
-  <div className={`bg-white rounded-lg border shadow-sm ${className}`}>{children}</div>
-);
-
-const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="p-6 pb-2">{children}</div>
-);
-
-const CardTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h3 className="text-xl font-semibold">{children}</h3>
-);
-
-const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="p-6 pt-2">{children}</div>
-);
-
-interface AlertProps {
-  children: React.ReactNode;
-  variant?: "default" | "success" | "warning" | "error";
-  className?: string;
-}
-
-const Alert: React.FC<AlertProps> = ({ children, variant = "default", className = "" }) => {
-  const baseClasses = "rounded-md p-4 border";
-  const variantClasses = {
-    default: "bg-gray-100 border-gray-200",
-    success: "bg-green-50 border-green-200",
-    warning: "bg-yellow-50 border-yellow-200",
-    error: "bg-red-50 border-red-200",
-  };
-  
-  return (
-    <div className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
-      {children}
-    </div>
-  );
-};
-
-const AlertTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h5 className="text-lg font-semibold">{children}</h5>
-);
-
-const AlertDescription: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="mt-2">{children}</div>
-);
-
-interface FormData {
-  tmrType: string;
-  sex: string;
-  currentSmoker: string;
-  opioidUse: string;
-  depression: string;
-  amputationLevel: string;
-  painScore: string;
-  anxiety: string;
-}
-
-const TMRPredictionTool: React.FC = () => {
+const TMRPredictionTool = () => {
   // State for form inputs
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     tmrType: "",
     sex: "",
     currentSmoker: "",
@@ -79,19 +14,19 @@ const TMRPredictionTool: React.FC = () => {
   });
 
   // State for calculated risk
-  const [riskLevel, setRiskLevel] = useState<string>("");
+  const [riskLevel, setRiskLevel] = useState("");
   
   // State for recommendations
-  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState([]);
   
   // State for active tab
-  const [activeTab, setActiveTab] = useState<string>("assessment");
+  const [activeTab, setActiveTab] = useState("assessment");
   
   // State to track if all required fields are filled
-  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState<boolean>(false);
+  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
 
   // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -146,7 +81,7 @@ const TMRPredictionTool: React.FC = () => {
     }
     
     let riskScore = 0;
-    let newRecommendations: string[] = [];
+    let newRecommendations = [];
     
     // Primary TMR risk factors
     if (tmrType === "primary") {
@@ -238,6 +173,18 @@ const TMRPredictionTool: React.FC = () => {
     setRecommendations(newRecommendations);
   };
 
+  // Get risk level color
+  const getRiskLevelColor = () => {
+    if (riskLevel === "High Risk") {
+      return "bg-red-50 border-red-200 text-red-800";
+    } else if (riskLevel === "Moderate Risk") {
+      return "bg-yellow-50 border-yellow-200 text-yellow-800";
+    } else if (riskLevel === "Low Risk" || riskLevel === "Minimal Risk") {
+      return "bg-green-50 border-green-200 text-green-800";
+    }
+    return "bg-gray-100 border-gray-200";
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Disclaimer Banner */}
@@ -316,181 +263,218 @@ const TMRPredictionTool: React.FC = () => {
 
       {/* Tab Content */}
       {activeTab === "assessment" && (
-        <div className="bg-white p-6 border-l border-r border-b rounded-b-lg">
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>TMR Surgical Risk Assessment Tool</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gray-50 p-6 border-l border-r border-b rounded-b-lg">
+          {/* Left Column - Assessment */}
+          <div className="md:col-span-1">
+            <div className="bg-white p-6 rounded shadow">
+              <h2 className="text-xl font-bold mb-4 text-[#0096B7]">
+                Risk Factors
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">TMR Type*</label>
+                  <select 
+                    name="tmrType"
+                    value={formData.tmrType}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                  >
+                    <option value="">Select...</option>
+                    <option value="primary">Primary TMR</option>
+                    <option value="secondary">Secondary TMR</option>
+                  </select>
+                </div>
+
+                {formData.tmrType === "primary" && (
                   <div>
-                    <label className="block text-sm font-medium mb-1">TMR Type*</label>
+                    <label className="block text-sm font-medium mb-1">Sex*</label>
                     <select 
-                      name="tmrType"
-                      value={formData.tmrType}
+                      name="sex"
+                      value={formData.sex}
                       onChange={handleInputChange}
                       className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
                     >
                       <option value="">Select...</option>
-                      <option value="primary">Primary TMR</option>
-                      <option value="secondary">Secondary TMR</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
                     </select>
                   </div>
+                )}
 
-                  {formData.tmrType === "primary" && (
+                <div>
+                  <label className="block text-sm font-medium mb-1">Current Smoker*</label>
+                  <select 
+                    name="currentSmoker"
+                    value={formData.currentSmoker}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                  >
+                    <option value="">Select...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Pre-operative Opioid Use*</label>
+                  <select 
+                    name="opioidUse"
+                    value={formData.opioidUse}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                  >
+                    <option value="">Select...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Depression*</label>
+                  <select 
+                    name="depression"
+                    value={formData.depression}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                  >
+                    <option value="">Select...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Amputation Level*</label>
+                  <select 
+                    name="amputationLevel"
+                    value={formData.amputationLevel}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                  >
+                    <option value="">Select...</option>
+                    <option value="distal">Distal (Transradial/Transtibial)</option>
+                    <option value="proximal">Proximal (Transhumeral/Transfemoral)</option>
+                  </select>
+                </div>
+
+                {formData.tmrType === "secondary" && (
+                  <>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Sex*</label>
+                      <label className="block text-sm font-medium mb-1">Current Pain Score (0-10)*</label>
+                      <input 
+                        type="number"
+                        min="0"
+                        max="10"
+                        name="painScore"
+                        value={formData.painScore}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                        placeholder="Enter score..."
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Anxiety*</label>
                       <select 
-                        name="sex"
-                        value={formData.sex}
+                        name="anxiety"
+                        value={formData.anxiety}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
                       >
                         <option value="">Select...</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
                       </select>
                     </div>
-                  )}
+                  </>
+                )}
 
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Current Smoker*</label>
-                    <select 
-                      name="currentSmoker"
-                      value={formData.currentSmoker}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="no">No</option>
-                      <option value="yes">Yes</option>
-                    </select>
-                  </div>
+                <p className="text-xs text-gray-500">* Required fields</p>
+              </div>
+            </div>
+          </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Pre-operative Opioid Use*</label>
-                    <select 
-                      name="opioidUse"
-                      value={formData.opioidUse}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="no">No</option>
-                      <option value="yes">Yes</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Depression*</label>
-                    <select 
-                      name="depression"
-                      value={formData.depression}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="no">No</option>
-                      <option value="yes">Yes</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Amputation Level*</label>
-                    <select 
-                      name="amputationLevel"
-                      value={formData.amputationLevel}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                    >
-                      <option value="">Select...</option>
-                      <option value="distal">Distal (Transradial/Transtibial)</option>
-                      <option value="proximal">Proximal (Transhumeral/Transfemoral)</option>
-                    </select>
-                  </div>
-
-                  {formData.tmrType === "secondary" && (
-                    <>
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Current Pain Score (0-10)*</label>
-                        <input 
-                          type="number"
-                          min="0"
-                          max="10"
-                          name="painScore"
-                          value={formData.painScore}
-                          onChange={handleInputChange}
-                          className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                          placeholder="Enter score..."
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Anxiety*</label>
-                        <select 
-                          name="anxiety"
-                          value={formData.anxiety}
-                          onChange={handleInputChange}
-                          className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
-                        >
-                          <option value="">Select...</option>
-                          <option value="no">No</option>
-                          <option value="yes">Yes</option>
-                        </select>
-                      </div>
-                    </>
-                  )}
-
-                  <p className="text-xs text-gray-500">* Required fields</p>
+          {/* Right Column - Results */}
+          <div className="md:col-span-2">
+            {allRequiredFieldsFilled ? (
+              <div className="bg-white p-6 rounded shadow">
+                <div className={`p-4 mb-4 rounded border-l-4 ${getRiskLevelColor()}`}>
+                  <h2 className="text-xl font-bold">Risk Assessment:</h2>
+                  <p className="text-lg font-medium">{riskLevel}</p>
                 </div>
 
-                <div className="space-y-4">
-                  <Alert className="border" variant={allRequiredFieldsFilled ? (riskLevel === "High Risk" ? "error" : riskLevel === "Moderate Risk" ? "warning" : "success") : "default"}>
-                    <AlertTitle className="text-lg font-bold">Risk Assessment</AlertTitle>
-                    <AlertDescription>
-                      <div className="mt-2">
-                        {allRequiredFieldsFilled ? (
-                          <div className="text-lg font-medium">{riskLevel}</div>
-                        ) : (
-                          <div className="text-sm font-medium">Complete all required fields to view risk assessment</div>
-                        )}
-                      </div>
-                    </AlertDescription>
-                  </Alert>
-
-                  <Alert>
-                    <AlertTitle>Clinical Recommendations</AlertTitle>
-                    <AlertDescription>
-                      {allRequiredFieldsFilled && recommendations.length > 0 ? (
-                        <ul className="mt-2 text-sm space-y-1">
-                          {recommendations.map((rec, index) => (
-                            <li key={index} className="flex items-start">
-                              <span className="mr-2 text-[#0096B7]">•</span>
-                              <span>{rec}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <div className="mt-2 text-sm">
-                          Recommendations will appear here based on risk assessment
-                        </div>
-                      )}
-                    </AlertDescription>
-                  </Alert>
-
-                  <div className="text-sm text-gray-500 mt-4">
-                    <p>This tool evaluates major risk factors identified in our RVM model study:</p>
-                    <ul className="list-disc pl-5 space-y-1 mt-2">
-                      <li>Primary TMR: opioid use, male sex, depression, smoking, proximal amputation</li>
-                      <li>Secondary TMR: smoking, high pain scores, anxiety, opioid use, depression, proximal amputation</li>
+                {recommendations.length > 0 && (
+                  <div>
+                    <h2 className="text-xl font-bold mb-3 text-[#0096B7]">
+                      Clinical Recommendations
+                    </h2>
+                    <ul className="space-y-1">
+                      {recommendations.map((rec, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mr-2 text-[#0096B7]">•</span>
+                          <span>{rec}</span>
+                        </li>
+                      ))}
                     </ul>
-                    <p className="mt-2 font-medium">Note: This tool should be used as a supplement to, not a replacement for, clinical judgment.</p>
                   </div>
+                )}
+
+                {/* Risk factor summary */}
+                <div className="mt-8 bg-gray-50 p-4 rounded">
+                  <h3 className="font-bold text-gray-700">
+                    Risk Factor Summary
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-600">
+                    This assessment evaluates major risk factors identified in our RVM model study for predicting TMR outcomes.
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            ) : (
+              <div className="bg-white p-6 rounded shadow">
+                <div className="bg-[#0096B7] text-white p-4 mb-4 rounded">
+                  <h2 className="text-xl font-bold">TMR Risk Assessment</h2>
+                  <p>Complete all required fields to view risk assessment results</p>
+                </div>
+
+                <div className="p-6 border rounded-lg bg-gray-50">
+                  <div className="flex justify-center pb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-16 w-16 text-[#0096B7]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg text-center font-medium text-gray-700">
+                    This tool helps predict outcomes following TMR surgery
+                  </h3>
+                  <p className="mt-2 text-center text-gray-600">
+                    Fill out all required fields to receive an evidence-based
+                    risk assessment and personalized clinical recommendations
+                  </p>
+                </div>
+
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <h3 className="font-bold text-gray-700">
+                    Clinical Implications
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-600">
+                    Identifying risk factors early can guide appropriate patient
+                    preparation, expectation management, and potentially multimodal
+                    treatment approaches to optimize TMR outcomes.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -610,7 +594,7 @@ const TMRPredictionTool: React.FC = () => {
               Raasveld FV, Zhang Z, Johnston BR, et al. Machine Learning Approach to Predict Pain Outcomes Following Primary and Secondary Targeted Muscle Reinnervation in Amputees. Ann Surg. 2025 (In Press).
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. The model identified distinct risk profiles for primary versus secondary TMR, with several shared and procedure-specific risk factors contributing greater than 5% to prediction accuracy.
+              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery.
             </p>
           </div>
 
@@ -619,18 +603,6 @@ const TMRPredictionTool: React.FC = () => {
             <ol className="list-decimal pl-5 space-y-1">
               <li>
                 Raasveld FV, Mayrhofer-Schmid M, Johnston BR, et al. Targeted muscle reinnervation at the time of amputation to prevent the development of neuropathic pain. J Plast Reconstr Aesthet Surg. 2024;97:13-22.
-              </li>
-              <li>
-                Raasveld FV, Mayrhofer‐Schmid M, Johnston BR, et al. Pain Remission Following Delayed Targeted Muscle Reinnervation in Amputees. Microsurgery. 2024;44(8).
-              </li>
-              <li>
-                Eberlin KR, Brown DA, Gaston RG, et al. A Consensus Approach for Targeted Muscle Reinnervation in Amputees. Plast Reconstr Surg Glob Open. 2023;11(4):E4928.
-              </li>
-              <li>
-                Caragher SP, Khouri KS, Raasveld FV, et al. The Peripheral Nerve Surgeon's Role in the Management of Neuropathic Pain. Plast Reconstr Surg Glob Open. 2023;11(5):E5005.
-              </li>
-              <li>
-                Valerio IL, Dumanian GA, Jordan SW, et al. Preemptive Treatment of Phantom and Residual Limb Pain with Targeted Muscle Reinnervation at the Time of Major Limb Amputation. J Am Coll Surg. 2019;228(3):217-226.
               </li>
               <li>
                 Dumanian GA, Potter BK, Mioton LM, et al. Targeted Muscle Reinnervation Treats Neuroma and Phantom Pain in Major Limb Amputees: A Randomized Clinical Trial. Ann Surg. 2019;270(2):238-246.
@@ -643,7 +615,7 @@ const TMRPredictionTool: React.FC = () => {
 
           <h3 className="font-bold mt-6 mb-2">Evidence Summary</h3>
           <p className="mb-4">
-            Our research utilizing a Relevance Vector Machine learning model identified several key factors that influence outcomes following TMR surgery. The model demonstrated different risk profiles for primary versus secondary TMR procedures:
+            Our research utilizing a Relevance Vector Machine learning model identified several key factors that influence outcomes following TMR surgery. The model demonstrated different risk profiles for primary versus secondary TMR procedures.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -661,31 +633,13 @@ const TMRPredictionTool: React.FC = () => {
               <h4 className="font-bold text-[#0096B7]">Secondary TMR</h4>
               <ul className="list-disc pl-5 mt-2">
                 <li>Current smoking status</li>
-                <li>High preoperative pain scores (NRS >6)</li>
+                <li>High preoperative pain scores</li>
                 <li>Anxiety</li>
                 <li>Preoperative opioid use</li>
                 <li>Depression</li>
                 <li>Proximal amputation level</li>
               </ul>
             </div>
-          </div>
-          
-          <p className="mb-4">
-            Each factor in this tool contributed greater than 5% to the prediction accuracy in our machine learning model. 
-            We found that patients with multiple risk factors showed significantly higher rates of suboptimal 
-            pain relief following TMR surgery. This tool synthesizes these findings to provide a practical 
-            clinical decision support framework, though individual patient factors should always be considered 
-            within their specific clinical context.
-          </p>
-          
-          <div className="bg-blue-50 p-4 rounded border mt-6">
-            <p className="font-medium text-[#0096B7]">Model Development</p>
-            <p className="text-sm mt-2">
-              The predictive model was developed using a Relevance Vector Machine (RVM) learning algorithm and validated through
-              cross-validation techniques. The model achieved robust predictive accuracy (AUC greater than 0.80) for both primary
-              and secondary TMR outcomes. Risk thresholds were established based on sensitivity and specificity analyses
-              to optimize clinical decision-making.
-            </p>
           </div>
         </div>
       )}
