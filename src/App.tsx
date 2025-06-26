@@ -4,47 +4,23 @@ import TMRPredictionTool from './components/TMRPredictionTool';
 const ICANAlgorithmsLanding = () => {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
-  // Tool data - REAL ICAN tools
+  // Tool data - REAL ICAN tools with correct categories
   const tools = [
     {
       id: 'tmr-predictor',
-      title: 'TMR Outcome Predictor',
-      description: 'Predicting outcomes following Targeted Muscle Reinnervation (TMR) in amputees',
+      title: 'TMR Outcome Predictor in Amputees',
+      description: 'Predicting outcomes following Targeted Muscle Reinnervation (TMR) in amputee patients',
       category: 'Surgical Planning',
       status: 'Available',
-      icon: '🎯'
-    },
-    {
-      id: 'central-pain',
-      title: 'Central Pain Criteria Assessment',
-      description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
-      category: 'Pain Assessment',
-      status: 'Available', 
       icon: '🧠'
     },
     {
-      id: 'tmr-map',
-      title: 'TMR Map',
-      description: 'Interactive mapping tool for Targeted Muscle Reinnervation procedures',
+      id: 'central-pain',
+      title: 'Central Pain Assessment Following PNI',
+      description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
       category: 'Surgical Planning',
-      status: 'Under Construction',
-      icon: '🗺️'
-    },
-    {
-      id: 'tmr-hand',
-      title: 'TMR Algorithm for Hand',
-      description: 'Specialized TMR assessment and planning for hand amputations',
-      category: 'Surgical Planning',
-      status: 'Under Construction',
-      icon: '✋'
-    },
-    {
-      id: 'treatment-algorithm',
-      title: 'Treatment Algorithm',
-      description: 'Comprehensive treatment planning for peripheral nerve conditions',
-      category: 'Treatment Planning',
-      status: 'Under Construction',
-      icon: '📋'
+      status: 'Available', 
+      icon: '🧠'
     },
     {
       id: 'knee-arthroplasty',
@@ -52,7 +28,23 @@ const ICANAlgorithmsLanding = () => {
       description: 'Surgical management of peripheral nerve symptoms following knee arthroplasty',
       category: 'Surgical Planning',
       status: 'Under Construction',
-      icon: '🦵'
+      icon: '🧠'
+    },
+    {
+      id: 'tmr-hand',
+      title: 'TMR Algorithm for Hand',
+      description: 'Specialized TMR assessment and planning for hand amputations',
+      category: 'Surgical Planning',
+      status: 'Under Construction',
+      icon: '🧠'
+    },
+    {
+      id: 'tmr-map',
+      title: 'TMR Map',
+      description: 'Interactive educational mapping tool for Targeted Muscle Reinnervation procedures',
+      category: 'Education & Training',
+      status: 'Under Construction',
+      icon: '🧠'
     }
   ];
 
@@ -97,16 +89,20 @@ const ICANAlgorithmsLanding = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto">
-      {/* Big Warning Banner */}
-      <div className="bg-amber-50 border-2 border-amber-200 p-6 mb-6 text-center rounded-lg shadow-sm">
-        <div className="flex items-center justify-center mb-3">
-          <svg className="w-8 h-8 text-amber-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+      {/* BIG RED WARNING BANNER */}
+      <div className="bg-red-50 border-4 border-red-400 p-8 mb-6 text-center rounded-lg shadow-lg">
+        <div className="flex items-center justify-center mb-4">
+          <svg className="w-12 h-12 text-red-600 mr-4" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
           </svg>
-          <span className="text-xl font-bold text-amber-800">Important Notice</span>
+          <span className="text-2xl font-bold text-red-800">⚠️ IMPORTANT VALIDATION NOTICE ⚠️</span>
         </div>
-        <p className="text-lg font-semibold text-amber-800">
-          <strong>Note:</strong> These evidence-based tools have been externally validated and should only be used as a supplement to, not a replacement for, clinical judgment.
+        <p className="text-xl font-bold text-red-800 mb-2">
+          These evidence-based algorithms have been developed through our research and literature review, 
+          but have NOT yet been externally validated.
+        </p>
+        <p className="text-lg font-semibold text-red-700">
+          These tools should ONLY be used as a supplement to, not a replacement for, clinical judgment.
         </p>
       </div>
 
@@ -150,23 +146,15 @@ const ICANAlgorithmsLanding = () => {
           </p>
         </div>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        {/* Statistics - REMOVED fake numbers */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">6</div>
-            <div className="text-sm text-gray-600">Clinical Tools</div>
+            <div className="text-2xl font-bold text-[#0096B7]">5</div>
+            <div className="text-sm text-gray-600">Clinical Algorithms</div>
           </div>
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">15+</div>
-            <div className="text-sm text-gray-600">Research Studies</div>
-          </div>
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">5,000+</div>
-            <div className="text-sm text-gray-600">Patients Analyzed</div>
-          </div>
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">Multi-Center</div>
-            <div className="text-sm text-gray-600">Validation</div>
+            <div className="text-2xl font-bold text-[#0096B7]">Research-Based</div>
+            <div className="text-sm text-gray-600">Evidence Foundation</div>
           </div>
         </div>
       </div>
@@ -178,8 +166,7 @@ const ICANAlgorithmsLanding = () => {
             <h3 className="text-xl font-bold text-[#0096B7] mb-4 flex items-center">
               <span className="mr-2">
                 {category === 'Surgical Planning' ? '🔧' : 
-                 category === 'Pain Assessment' ? '⚡' : 
-                 category === 'Treatment Planning' ? '📋' : '🏥'}
+                 category === 'Education & Training' ? '📚' : '🏥'}
               </span>
               {category}
             </h3>
