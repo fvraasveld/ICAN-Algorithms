@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import TMRPredictionTool from './components/TMRPredictionTool';
 
 const ICANAlgorithmsLanding = () => {
-  const [selectedTool, setSelectedTool] = useState(null);
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
-  // Tool data
+  // Tool data - REAL ICAN tools
   const tools = [
     {
       id: 'tmr-predictor',
       title: 'TMR Outcome Predictor',
-      description: 'Predicting outcomes following Targeted Muscle Reinnervation (TMR)',
+      description: 'Predicting outcomes following Targeted Muscle Reinnervation (TMR) in amputees',
       category: 'Surgical Planning',
       status: 'Available',
       icon: '🎯'
@@ -17,59 +17,61 @@ const ICANAlgorithmsLanding = () => {
     {
       id: 'central-pain',
       title: 'Central Pain Criteria Assessment',
-      description: 'Evaluating centralized pain following peripheral nerve injury',
+      description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
       category: 'Pain Assessment',
-      status: 'Coming Soon', 
+      status: 'Available', 
       icon: '🧠'
     },
     {
-      id: 'phantom-pain',
-      title: 'Phantom Pain Risk Calculator',
-      description: 'Assessing risk factors for phantom limb pain development',
-      category: 'Pain Assessment',
-      status: 'Coming Soon',
-      icon: '👻'
-    },
-    {
-      id: 'prosthetic-fit',
-      title: 'Prosthetic Fit Predictor',
-      description: 'Predicting prosthetic tolerance and functional outcomes',
-      category: 'Rehabilitation',
-      status: 'Coming Soon',
-      icon: '🦾'
-    },
-    {
-      id: 'amputation-level',
-      title: 'Amputation Level Decision Support',
-      description: 'Evidence-based guidance for optimal amputation level selection',
+      id: 'tmr-map',
+      title: 'TMR Map',
+      description: 'Interactive mapping tool for Targeted Muscle Reinnervation procedures',
       category: 'Surgical Planning',
-      status: 'Coming Soon',
-      icon: '📐'
+      status: 'Under Construction',
+      icon: '🗺️'
     },
     {
-      id: 'revision-risk',
-      title: 'Revision Surgery Risk Assessment',
-      description: 'Predicting risk of revision surgery in amputees',
+      id: 'tmr-hand',
+      title: 'TMR Algorithm for Hand',
+      description: 'Specialized TMR assessment and planning for hand amputations',
       category: 'Surgical Planning',
-      status: 'Coming Soon',
-      icon: '🔄'
+      status: 'Under Construction',
+      icon: '✋'
+    },
+    {
+      id: 'treatment-algorithm',
+      title: 'Treatment Algorithm',
+      description: 'Comprehensive treatment planning for peripheral nerve conditions',
+      category: 'Treatment Planning',
+      status: 'Under Construction',
+      icon: '📋'
+    },
+    {
+      id: 'knee-arthroplasty',
+      title: 'Knee Arthroplasty Nerve Management',
+      description: 'Surgical management of peripheral nerve symptoms following knee arthroplasty',
+      category: 'Surgical Planning',
+      status: 'Under Construction',
+      icon: '🦵'
     }
   ];
 
-  // Group tools by category
+  // Group tools by category - includes Treatment Planning
   const toolsByCategory = tools.reduce((acc: Record<string, any[]>, tool) => {
     if (!acc[tool.category]) {
       acc[tool.category] = [];
     }
     acc[tool.category].push(tool);
     return acc;
-  }, {});
+  }, {} as Record<string, any[]>);
 
-  const handleToolSelect = (toolId) => {
+  const handleToolSelect = (toolId: string) => {
     if (toolId === 'tmr-predictor') {
       setSelectedTool('tmr-predictor');
+    } else if (toolId === 'central-pain') {
+      setSelectedTool('central-pain');
     }
-    // Add other tools here later
+    // Other tools will be added as they become available
   };
 
   const goBack = () => {
@@ -176,7 +178,8 @@ const ICANAlgorithmsLanding = () => {
             <h3 className="text-xl font-bold text-[#0096B7] mb-4 flex items-center">
               <span className="mr-2">
                 {category === 'Surgical Planning' ? '🔧' : 
-                 category === 'Pain Assessment' ? '⚡' : '🏥'}
+                 category === 'Pain Assessment' ? '⚡' : 
+                 category === 'Treatment Planning' ? '📋' : '🏥'}
               </span>
               {category}
             </h3>
@@ -185,7 +188,7 @@ const ICANAlgorithmsLanding = () => {
               {categoryTools.map((tool) => (
                 <div 
                   key={tool.id}
-                  className={`
+                                      className={`
                     bg-white p-6 rounded-lg border-2 shadow-sm transition-all duration-200
                     ${tool.status === 'Available' 
                       ? 'hover:shadow-md hover:border-[#0096B7] cursor-pointer hover:scale-105' 
@@ -200,6 +203,8 @@ const ICANAlgorithmsLanding = () => {
                       text-xs px-2 py-1 rounded-full font-medium
                       ${tool.status === 'Available' 
                         ? 'bg-green-100 text-green-800' 
+                        : tool.status === 'Under Construction'
+                        ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-gray-100 text-gray-600'
                       }
                     `}>
