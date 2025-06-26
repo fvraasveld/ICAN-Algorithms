@@ -57,7 +57,7 @@ const ICANAlgorithmsLanding = () => {
   ];
 
   // Group tools by category
-  const toolsByCategory = tools.reduce((acc, tool) => {
+  const toolsByCategory = tools.reduce((acc: Record<string, any[]>, tool) => {
     if (!acc[tool.category]) {
       acc[tool.category] = [];
     }
