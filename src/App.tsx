@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import TMRPredictionTool from './components/TMRPredictionTool';
 import CentralPainCriteriaAssessment from './components/CentralizedPainCriteria';
-import TMRCentersMap from './components/TMRLiteratureMap';
 
 const ICANAlgorithmsLanding = () => {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
@@ -18,7 +17,7 @@ const ICANAlgorithmsLanding = () => {
     },
     {
       id: 'central-pain',
-      title: 'Central Pain Assessment Following PNI',
+      title: 'Criteria for Centralized Pain Following PNI',
       description: 'Evaluating centralized pain following peripheral nerve injury (PNI)',
       category: 'Surgical Planning',
       status: 'Available', 
@@ -45,7 +44,7 @@ const ICANAlgorithmsLanding = () => {
       title: 'TMR World Map',
       description: 'Interactive global map of TMR research centers and publications',
       category: 'Education & Training',
-      status: 'Available',
+      status: 'Under Construction',
       icon: '🗺️'
     }
   ];
@@ -64,10 +63,8 @@ const ICANAlgorithmsLanding = () => {
       setSelectedTool('tmr-predictor');
     } else if (toolId === 'central-pain') {
       setSelectedTool('central-pain');
-    } else if (toolId === 'tmr-map') {
-      setSelectedTool('tmr-map');
     }
-    // TMR Hand is under construction - no navigation needed
+    // TMR Map and TMR Hand are under construction - no navigation needed
   };
 
   const goBack = () => {
@@ -135,39 +132,6 @@ const ICANAlgorithmsLanding = () => {
             ← Back to ICAN Algorithms
           </button>
           <CentralPainCriteriaAssessment />
-        </div>
-      </div>
-    );
-  }
-
-  // If TMR Map is selected, show it
-  if (selectedTool === 'tmr-map') {
-    return (
-      <div className="w-full max-w-6xl mx-auto">
-        {/* BIG RED WARNING BANNER */}
-        <div className="bg-red-50 border-4 border-red-400 p-8 mb-6 text-center rounded-lg shadow-lg">
-          <div className="flex items-center justify-center mb-4">
-            <svg className="w-12 h-12 text-red-600 mr-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-            <span className="text-2xl font-bold text-red-800">⚠️ IMPORTANT VALIDATION NOTICE ⚠️</span>
-          </div>
-          <p className="text-xl font-bold text-red-800 mb-2">
-            These evidence-based algorithms have been developed through our research and literature review, 
-            but have NOT yet been externally validated.
-          </p>
-          <p className="text-lg font-semibold text-red-700">
-            These tools should ONLY be used as a supplement to, not a replacement for, clinical judgment.
-          </p>
-        </div>
-        <div className="bg-white p-4 border-b">
-          <button 
-            onClick={goBack}
-            className="text-[#0096B7] hover:underline flex items-center mb-2"
-          >
-            ← Back to ICAN Algorithms
-          </button>
-          <TMRCentersMap />
         </div>
       </div>
     );
@@ -261,7 +225,7 @@ const ICANAlgorithmsLanding = () => {
               {categoryTools.map((tool) => (
                 <div 
                   key={tool.id}
-                                      className={`
+                  className={`
                     bg-white p-6 rounded-lg border-2 shadow-sm transition-all duration-200
                     ${tool.status === 'Available' 
                       ? 'hover:shadow-md hover:border-[#0096B7] cursor-pointer hover:scale-105' 
