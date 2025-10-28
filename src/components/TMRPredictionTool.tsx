@@ -599,15 +599,22 @@ const TMRPredictionTool = () => {
             </p>
           </div>
 
-          <h3 className="font-bold mt-4 mb-2">Primary Reference</h3>
-          <div className="bg-gray-50 p-4 rounded border mb-4">
-            <p className="font-medium">
-              Raasveld FV, Zhang Z, Johnston BR, et al. Machine Learning Approach to Predict Pain Outcomes Following Primary and Secondary Targeted Muscle Reinnervation in Amputees. JPRAS. 2025 (Under Review).
-            </p>
-            <p className="mt-2 text-sm text-gray-600">
-              This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery.
-            </p>
-          </div>
+<h3 className="font-bold mt-4 mb-2">Primary Reference</h3>
+<div className="bg-gray-50 p-4 rounded border mb-4">
+  <p className="font-medium">
+    Raasveld FV, Zhang Z, Johnston BR, et al. Machine Learning Approach to Predict Pain Outcomes Following Primary and Secondary Targeted Muscle Reinnervation in Amputees. <em>JPRAS</em>. 2025 (In Press).
+  </p>
+  <p className="mt-2 text-sm text-gray-600">
+    This study utilized a Relevance Vector Machine (RVM) approach to identify key factors predicting outcomes following TMR surgery. Presented at the American Association of Plastic Surgeons 2025. <a 
+      href="https://journals.lww.com/prsgo/fulltext/2025/05002/33__machine_learning_approach_to_predict_pain.34.aspx" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      View Conference Abstract (American Association of Plastic Surgeons)
+    </a>
+  </p>
+</div>
 
           <h3 className="font-bold mt-4 mb-2">Supporting References</h3>
           <div className="overflow-y-auto max-h-96 bg-gray-50 p-4 rounded border text-sm">
