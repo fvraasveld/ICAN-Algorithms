@@ -1,4 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
+
+type YesNo = "" | "yes" | "no";
+
+type ScreeningCriteria = {
+  clinicalSuspicion: YesNo;
+  tinel: YesNo;
+  pain: YesNo;
+  sensoryDeficit: YesNo;
+};
+
+type NonOpCriteria = {
+  gabapentinoids: YesNo;
+  nsaids: YesNo;
+  topicalMedications: YesNo;
+  desensitization: YesNo;
+  physicalTherapy: YesNo;
+};
+
+type OpCriteria = {
+  failedConservative: YesNo;
+  functionalImpairment: YesNo;
+  locationIdentified: YesNo;
+  neuromaType: YesNo;
+};
 
 const HandNeuromaAlgorithm = () => {
   // State for active main tab
@@ -8,7 +32,7 @@ const HandNeuromaAlgorithm = () => {
   const [activeAlgorithm, setActiveAlgorithm] = useState("screening");
 
   // State for Screening Algorithm
-  const [screeningCriteria, setScreeningCriteria] = useState({
+  const [screeningCriteria, setScreeningCriteria] = useState<ScreeningCriteria>({
     clinicalSuspicion: "",
     tinel: "",
     pain: "",
@@ -20,7 +44,7 @@ const HandNeuromaAlgorithm = () => {
   const [screeningFilled, setScreeningFilled] = useState(false);
 
   // State for Non-Operative Algorithm
-  const [nonOpCriteria, setNonOpCriteria] = useState({
+  const [nonOpCriteria, setNonOpCriteria] = useState<NonOpCriteria>({
     gabapentinoids: "",
     nsaids: "",
     topicalMedications: "",
@@ -33,7 +57,7 @@ const HandNeuromaAlgorithm = () => {
   const [nonOpFilled, setNonOpFilled] = useState(false);
 
   // State for Operative Algorithm
-  const [opCriteria, setOpCriteria] = useState({
+  const [opCriteria, setOpCriteria] = useState<OpCriteria>({
     failedConservative: "",
     functionalImpairment: "",
     locationIdentified: "",
@@ -41,36 +65,37 @@ const HandNeuromaAlgorithm = () => {
   });
 
   const [opResult, setOpResult] = useState("");
-  const [opRecommendations, setOpRecommendations] = useState([]);
+  const [opRecommendations, setOpRecommendations] = useState<string[]>([]);
   const [opColor, setOpColor] = useState("");
   const [opFilled, setOpFilled] = useState(false);
 
   // Handle screening input changes
-  const handleScreeningChange = (e) => {
-    const { name, value } = e.target;
-    setScreeningCriteria({
-      ...screeningCriteria,
-      [name]: value,
-    });
-  };
+const handleScreeningChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const { name, value } = e.target;
 
-  // Handle non-op input changes
-  const handleNonOpChange = (e) => {
-    const { name, value } = e.target;
-    setNonOpCriteria({
-      ...nonOpCriteria,
-      [name]: value,
-    });
-  };
+  setScreeningCriteria((prev) => ({
+    ...prev,
+    [name as keyof ScreeningCriteria]: value as YesNo,
+  }));
+};
 
-  // Handle operative input changes
-  const handleOpChange = (e) => {
-    const { name, value } = e.target;
-    setOpCriteria({
-      ...opCriteria,
-      [name]: value,
-    });
-  };
+const handleNonOpChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const { name, value } = e.target;
+
+  setNonOpCriteria((prev) => ({
+    ...prev,
+    [name as keyof NonOpCriteria]: value as YesNo,
+  }));
+};
+
+const handleOpChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const { name, value } = e.target;
+
+  setOpCriteria((prev) => ({
+    ...prev,
+    [name as keyof OpCriteria]: value as YesNo,
+  }));
+};
 
   // Calculate screening results
   useEffect(() => {
