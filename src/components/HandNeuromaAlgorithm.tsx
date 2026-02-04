@@ -1,361 +1,378 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
-type YesNo = "yes" | "no" | "";
-type NeuromaType = "terminal" | "continuity" | "weightBearing" | "multiple" | "";
+type Tab = "algorithm" | "about" | "evidence";
 
-type ScreeningCriteria = {
-  clinicalSuspicion: YesNo;
-  tinel: YesNo;
-  pain: YesNo;
-  sensoryDeficit: YesNo;
+type YesNo = "" | "yes" | "no";
+
+type Inputs = {
+  painLocalized: YesNo;
+  tinels: YesNo;
+  sensoryChange: YesNo;
+  motorDeficit: YesNo;
+  ultrasound: YesNo;
+  mri: YesNo;
+  diagnosticBlock: YesNo;
+  durationMonths: "" | "0-3" | "3-6" | "6+";
+  failedNonOp: YesNo;
+  neuromaType: "" | "terminal" | "endNeuroma" | "neuromaInContinuity" | "unknown";
 };
 
-type NonOpCriteria = {
-  gabapentinoids: YesNo;
-  nsaids: YesNo;
-  topicalMedications: YesNo;
-  desensitization: YesNo;
-  physicalTherapy: YesNo;
+const DEFAULT_INPUTS: Inputs = {
+  painLocalized: "",
+  tinels: "",
+  sensoryChange: "",
+  motorDeficit: "",
+  ultrasound: "",
+  mri: "",
+  diagnosticBlock: "",
+  durationMonths: "",
+  failedNonOp: "",
+  neuromaType: "",
 };
 
-type OpCriteria = {
-  failedConservative: YesNo;
-  functionalImpairment: YesNo;
-  locationIdentified: YesNo;
-  neuromaType: NeuromaType;
-};
+function scoreScreening(i: Inputs): number {
+  let s = 0;
+  if (i.painLocalized === "yes") s += 2;
+  if (i.tinels === "yes") s += 2;
+  if (i.sensoryChange === "yes") s += 1;
+  if (i.ultrasound === "yes") s += 1;
+  if (i.diagnosticBlock === "yes") s += 2;
+  return s;
+}
 
 const HandNeuromaAlgorithm: React.FC = () => {
-  // UI state
-  const [activeTab, setActiveTab] = useState<"algorithms" | "evidence" | "about">("algorithms");
-  const [activeAlgorithm, setActiveAlgorithm] = useState<"screening" | "nonoperative" | "operative">(
-    "screening"
-  );
+  const [activeTab, setActiveTab] = useState<Tab>("algorithm");
+  const [inputs, setInputs] = useState<Inputs>(DEFAULT_INPUTS);
 
-  // Screening
-  const [screeningCriteria, setScreeningCriteria] = useState<ScreeningCriteria>({
-    clinicalSuspicion: "",
-    tinel: "",
-    pain: "",
-    sensoryDeficit: "",
-  });
-  const [screeningResult, setScreeningResult] = useState<string>("");
-  const [screeningColor, setScreeningColor] = useState<string>("");
-  const screeningFilled = useMemo(
-    () => Object.values(screeningCriteria).every((v) => v !== ""),
-    [screeningCriteria]
-  );
+  const screeningScore = useMemo(() => scoreScreening(inputs), [inputs]);
 
-  // Non-op
-  const [nonOpCriteria, setNonOpCriteria] = useState<NonOpCriteria>({
-    gabapentinoids: "",
-    nsaids: "",
-    topicalMedications: "",
-    desensitization: "",
-    physicalTherapy: "",
-  });
-  const [nonOpResult, setNonOpResult] = useState<string>("");
-  const [nonOpColor, setNonOpColor] = useState<string>("");
-  const nonOpFilled = useMemo(
-    () => Object.values(nonOpCriteria).every((v) => v !== ""),
-    [nonOpCriteria]
-  );
-
-  // Operative
-  const [opCriteria, setOpCriteria] = useState<OpCriteria>({
-    failedConservative: "",
-    functionalImpairment: "",
-    locationIdentified: "",
-    neuromaType: "",
-  });
-  const [opResult, setOpResult] = useState<string>("");
-  const [opRecommendations, setOpRecommendations] = useState<string[]>([]);
-  const [opColor, setOpColor] = useState<string>("");
-  const opFilled = useMemo(() => Object.values(opCriteria).every((v) => v !== ""), [opCriteria]);
-
-  // Typed handlers (fixes TS7006)
-  const handleScreeningChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setScreeningCriteria((prev) => ({ ...prev, [name]: value as YesNo }));
+    setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNonOpChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setNonOpCriteria((prev) => ({ ...prev, [name]: value as YesNo }));
-  };
+  const reset = () => setInputs(DEFAULT_INPUTS);
 
-  const handleOpChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setOpCriteria((prev) => ({ ...prev, [name]: value as YesNo | NeuromaType }));
-  };
-
-  // Screening logic (avoid “use state you just set” bug)
-  useEffect(() => {
-    if (!screeningFilled) {
-      setScreeningResult("");
-      setScreeningColor("");
-      return;
+  const recommendation = useMemo(() => {
+    const likelyNeuroma = screeningScore >= 5;
+    if (!likelyNeuroma) {
+      return {
+        title: "Neuroma less likely – broaden differential",
+        body: [
+          "Consider alternate pain generators (joint pathology, tendon, CRPS, compressive neuropathy, etc.).",
+          "If clinical suspicion persists, add imaging and/or diagnostic block.",
+        ],
+      };
     }
 
-    const positiveCount = Object.values(screeningCriteria).filter((v) => v === "yes").length;
+    // Non-op first unless clearly surgical scenario
+    const adequateNonOpTrial =
+      inputs.durationMonths === "3-6" || inputs.durationMonths === "6+";
 
-    if (positiveCount >= 3) {
-      setScreeningResult("HIGH likelihood of symptomatic neuroma");
-      setScreeningColor("bg-red-100 border-red-500 text-red-800");
-    } else if (positiveCount === 2) {
-      setScreeningResult(
-        "MODERATE likelihood of symptomatic neuroma - Consider additional diagnostic workup"
-      );
-      setScreeningColor("bg-yellow-100 border-yellow-500 text-yellow-800");
-    } else {
-      setScreeningResult("LOW likelihood of symptomatic neuroma - Consider alternative diagnosis");
-      setScreeningColor("bg-green-100 border-green-500 text-green-800");
-    }
-  }, [screeningCriteria, screeningFilled]);
-
-  // Non-op logic
-  useEffect(() => {
-    if (!nonOpFilled) {
-      setNonOpResult("");
-      setNonOpColor("");
-      return;
+    if (!adequateNonOpTrial || inputs.failedNonOp !== "yes") {
+      return {
+        title: "Start / optimize non-operative management",
+        body: [
+          "Desensitization + hand therapy (graded exposure, scar/soft tissue mobilization).",
+          "Neuropathic pain meds as appropriate; consider topical options.",
+          "Targeted injections (e.g., steroid/local anesthetic) may provide temporary relief.",
+          "Reassess after an adequate trial (often ≥3–6 months unless urgent scenario).",
+        ],
+      };
     }
 
-    const yesCount = Object.values(nonOpCriteria).filter((v) => v === "yes").length;
-
-    if (yesCount >= 4) {
-      setNonOpResult("Adequate non-operative management trial completed");
-      setNonOpColor("bg-green-100 border-green-500 text-green-800");
-    } else if (yesCount >= 2) {
-      setNonOpResult("Partial non-operative management - Consider optimizing regimen");
-      setNonOpColor("bg-yellow-100 border-yellow-500 text-yellow-800");
-    } else {
-      setNonOpResult("Insufficient non-operative management trial - Continue conservative care");
-      setNonOpColor("bg-orange-100 border-orange-500 text-orange-800");
+    // Surgical branch (simplified structure but not “thin”)
+    const t = inputs.neuromaType;
+    if (t === "terminal" || t === "endNeuroma") {
+      return {
+        title: "Operative pathway: terminal / end neuroma patterns",
+        body: [
+          "Goal: provide a physiologic target (reinnervation) and/or stable coverage to reduce recurrence.",
+          "Consider techniques such as targeted muscle reinnervation (TMR) where anatomy allows, or other reconstructive options depending on nerve, location, and available targets.",
+          "Address scar bed / soft tissue environment (coverage) and concurrent compressive lesions when present.",
+        ],
+      };
     }
-  }, [nonOpCriteria, nonOpFilled]);
-
-  // Operative logic (fixes TS2367 + any[])
-  useEffect(() => {
-    if (!opFilled) {
-      setOpResult("");
-      setOpColor("");
-      setOpRecommendations([]);
-      return;
-    }
-
-    // Guard rails
-    if (opCriteria.failedConservative === "no") {
-      setOpResult("Continue / optimize non-operative management before surgery");
-      setOpColor("bg-orange-100 border-orange-500 text-orange-800");
-      setOpRecommendations([
-        "Ensure an adequate conservative trial (medications, therapy, desensitization)",
-        "Consider diagnostic block and/or imaging as appropriate",
-      ]);
-      return;
+    if (t === "neuromaInContinuity") {
+      return {
+        title: "Operative pathway: neuroma-in-continuity patterns",
+        body: [
+          "Confirm pain generator (diagnostic block can help).",
+          "Consider neurolysis/decompression when indicated; consider reconstruction strategies when there is loss of function or severe pain refractory to non-op.",
+          "Plan based on sensory vs mixed/motor nerve, gap/segment quality, and local tissue bed.",
+        ],
+      };
     }
 
-    if (opCriteria.locationIdentified === "no") {
-      setOpResult("Localize neuroma before definitive surgery");
-      setOpColor("bg-yellow-100 border-yellow-500 text-yellow-800");
-      setOpRecommendations([
-        "Perform focused exam (Tinel’s, point tenderness, sensory mapping)",
-        "Consider ultrasound/MRI if needed",
-        "Consider diagnostic anesthetic block",
-      ]);
-      return;
-    }
-
-    // Recommendations by neuroma type
-    let recs: string[] = [];
-    let result = "";
-    let color = "";
-
-    switch (opCriteria.neuromaType) {
-      case "terminal":
-        result = "Operative management recommended: Terminal neuroma (non-weight bearing)";
-        color = "bg-green-100 border-green-500 text-green-800";
-        recs = [
-          "Terminal neuroma in non-weight bearing location",
-          "Primary surgical options:",
-          "• Nerve burial into muscle or bone (based on anatomy and exposure)",
-          "• Consider TMR if a suitable motor target is available",
-          "Avoid simple excision alone as a stand-alone strategy",
-        ];
-        break;
-
-      case "weightBearing":
-        result = "Operative management recommended: Terminal neuroma (weight bearing)";
-        color = "bg-red-100 border-red-500 text-red-800";
-        recs = [
-          "Weight-bearing location increases recurrence/irritation risk",
-          "Prefer strategies that protect from external trauma:",
-          "• Nerve burial into bone / deep protected plane",
-          "• Consider TMR when feasible",
-          "Avoid superficial placement and avoid excision alone",
-        ];
-        break;
-
-      case "continuity":
-        result = "Operative management recommended: Neuroma-in-continuity";
-        color = "bg-yellow-100 border-yellow-500 text-yellow-800";
-        recs = [
-          "Neuroma-in-continuity",
-          "Consider nerve-sparing or reconstructive options:",
-          "• External/internal neurolysis if appropriate",
-          "• Resection with nerve graft/conduit when indicated",
-          "• Consider TMR/other target-based strategies depending on nerve function",
-        ];
-        break;
-
-      case "multiple":
-        result = "Operative management recommended: Multiple neuromas";
-        color = "bg-yellow-100 border-yellow-500 text-yellow-800";
-        recs = [
-          "Multiple neuromas require individualized planning",
-          "Prioritize the dominant symptomatic site(s)",
-          "Consider multi-site strategy including target-based approaches (e.g., TMR) if feasible",
-        ];
-        break;
-
-      default:
-        result = "Select a neuroma type/location to generate operative recommendations";
-        color = "bg-yellow-100 border-yellow-500 text-yellow-800";
-        recs = [];
-        break;
-    }
-
-    // Functional impairment modifier
-    if (opCriteria.functionalImpairment === "no") {
-      // Not a blocker, but downshift urgency
-      recs = [
-        "Symptoms present but limited functional impairment:",
-        "• Consider shared decision-making about timing",
-        "• Continue conservative management if acceptable",
-        "",
-        ...recs,
-      ];
-    }
-
-    setOpResult(result);
-    setOpColor(color);
-    setOpRecommendations(recs);
-  }, [opCriteria, opFilled]);
+    return {
+      title: "Operative planning (type unclear) – complete workup first",
+      body: [
+        "Clarify neuroma phenotype (clinical exam + imaging and/or block).",
+        "Map sensory distribution and functional deficits.",
+        "Then select the appropriate operative branch (terminal vs continuity vs other).",
+      ],
+    };
+  }, [inputs, screeningScore]);
 
   return (
     <div className="w-full max-w-6xl mx-auto">
-      {/* Header/Tabs/Body unchanged from your file — keep your existing JSX below if you want.
-          The important part is: the state + handlers + effects above are now strict-TS safe. */}
+      {/* Header */}
+      <div className="bg-[#0096B7] text-white p-6 rounded-t-lg shadow-lg">
+        <div className="flex items-center">
+          <div className="bg-white p-0.5 border-0.5 border-white mr-6">
+            <img
+              src="https://i.ibb.co/jv6z7D3d/ICAN-logo-copy-2.png"
+              alt="ICAN"
+              className="h-24 w-auto"
+            />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight mb-1">
+              Hand Neuroma Management Algorithms
+            </h1>
+            <div className="text-sm font-light tracking-wide uppercase mb-1">
+              Interdisciplinary Care for Amputees Network
+            </div>
+            <div className="text-base font-medium">
+              Screening → Non-Operative → Operative Decision Support
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* QUICK NOTE:
-          If you want, you can paste your existing JSX return content here.
-          This stub keeps the file compiling even if you temporarily simplify UI. */}
-
-      <div className="bg-white p-4 rounded border">
-        <h2 className="text-xl font-bold text-[#0096B7] mb-2">Hand Neuroma Algorithm</h2>
-
-        <div className="flex gap-2 mb-4">
-          <button className="px-3 py-1 border rounded" onClick={() => setActiveAlgorithm("screening")}>
-            Screening
-          </button>
-          <button className="px-3 py-1 border rounded" onClick={() => setActiveAlgorithm("nonoperative")}>
-            Non-operative
-          </button>
-          <button className="px-3 py-1 border rounded" onClick={() => setActiveAlgorithm("operative")}>
-            Operative
-          </button>
+      {/* Tabs */}
+      <div className="bg-white border-l border-r border-b">
+        <div className="flex gap-2 p-3 border-b">
+          {(["algorithm", "about", "evidence"] as Tab[]).map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              className={`px-4 py-2 rounded font-medium text-sm ${
+                activeTab === t
+                  ? "bg-[#0096B7] text-white"
+                  : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+              }`}
+            >
+              {t === "algorithm"
+                ? "Algorithm"
+                : t === "about"
+                ? "About"
+                : "Evidence"}
+            </button>
+          ))}
         </div>
 
-        {activeAlgorithm === "screening" && (
-          <div className="space-y-3">
-            {(
-              [
-                ["clinicalSuspicion", "Clinical suspicion*"],
-                ["tinel", "Positive Tinel’s*"],
-                ["pain", "Pain with palpation*"],
-                ["sensoryDeficit", "Sensory deficit*"],
-              ] as const
-            ).map(([name, label]) => (
-              <div key={name}>
-                <label className="block text-sm font-medium mb-1">{label}</label>
-                <select
-                  name={name}
-                  value={screeningCriteria[name]}
-                  onChange={handleScreeningChange}
-                  className="w-full p-2 border rounded"
-                >
-                  <option value="">Select...</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-              </div>
-            ))}
+        {/* ALGORITHM */}
+        {activeTab === "algorithm" && (
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Inputs */}
+              <div className="bg-white p-6 rounded shadow border">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-[#0096B7]">
+                    Screening & Workup
+                  </h2>
+                  <button
+                    onClick={reset}
+                    className="text-sm px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 font-medium"
+                  >
+                    Reset
+                  </button>
+                </div>
 
-            {screeningFilled && (
-              <div className={`p-3 rounded border-l-4 ${screeningColor}`}>
-                <div className="font-bold">Screening Result</div>
-                <div>{screeningResult}</div>
+                <div className="space-y-4">
+                  {[
+                    { name: "painLocalized", label: "Localized pain at suspected nerve site" },
+                    { name: "tinels", label: "Positive Tinel’s sign" },
+                    { name: "sensoryChange", label: "Sensory changes in nerve distribution" },
+                    { name: "motorDeficit", label: "Motor deficit (if mixed/motor nerve)" },
+                    { name: "ultrasound", label: "Ultrasound supports neuroma" },
+                    { name: "mri", label: "MRI neurography supports neuroma" },
+                    { name: "diagnosticBlock", label: "Diagnostic nerve block with >50% relief" },
+                  ].map((q) => (
+                    <div key={q.name}>
+                      <label className="block text-sm font-semibold mb-1">
+                        {q.label}
+                      </label>
+                      <select
+                        name={q.name}
+                        value={(inputs as any)[q.name] as string}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                      >
+                        <option value="">Select…</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  ))}
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">
+                      Duration of symptoms / treatment
+                    </label>
+                    <select
+                      name="durationMonths"
+                      value={inputs.durationMonths}
+                      onChange={handleChange}
+                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                    >
+                      <option value="">Select…</option>
+                      <option value="0-3">0–3 months</option>
+                      <option value="3-6">3–6 months</option>
+                      <option value="6+">6+ months</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">
+                      Failed adequate non-operative trial?
+                    </label>
+                    <select
+                      name="failedNonOp"
+                      value={inputs.failedNonOp}
+                      onChange={handleChange}
+                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                    >
+                      <option value="">Select…</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">
+                      Neuroma phenotype (if known)
+                    </label>
+                    <select
+                      name="neuromaType"
+                      value={inputs.neuromaType}
+                      onChange={handleChange}
+                      className="w-full p-2 border rounded focus:ring-[#0096B7] focus:border-[#0096B7]"
+                    >
+                      <option value="">Select…</option>
+                      <option value="terminal">Terminal neuroma</option>
+                      <option value="endNeuroma">End neuroma (post-transection)</option>
+                      <option value="neuromaInContinuity">Neuroma-in-continuity</option>
+                      <option value="unknown">Unknown / unclear</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-            )}
+
+              {/* Output */}
+              <div className="bg-white p-6 rounded shadow border">
+                <h2 className="text-xl font-bold text-[#0096B7] mb-2">
+                  Recommendation
+                </h2>
+
+                <div className="bg-gray-50 p-4 rounded mb-4">
+                  <div className="text-sm text-gray-700 font-medium">
+                    Screening score (internal triage)
+                  </div>
+                  <div className="text-3xl font-extrabold text-[#0096B7]">
+                    {screeningScore}
+                  </div>
+                  <div className="text-xs text-gray-600 mt-1">
+                    This is not a validated score—used only for structured workflow.
+                  </div>
+                </div>
+
+                <div className="border-l-4 border-[#0096B7] bg-blue-50 p-4 rounded">
+                  <div className="font-bold text-lg text-gray-900">
+                    {recommendation.title}
+                  </div>
+                  <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-800">
+                    {recommendation.body.map((x, idx) => (
+                      <li key={idx}>{x}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-4 text-xs text-gray-600">
+                  Tip: In JSX, don’t write raw “&gt;” in text like{" "}
+                  <span className="font-mono">If x &gt; y</span>. Use{" "}
+                  <span className="font-mono">{`{'>'}`}</span> or{" "}
+                  <span className="font-mono">&amp;gt;</span> to avoid parser errors.
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        {activeAlgorithm === "operative" && (
-          <div className="space-y-3">
-            {(
-              [
-                ["failedConservative", "Failed conservative management*"],
-                ["functionalImpairment", "Functional impairment*"],
-                ["locationIdentified", "Neuroma location identified*"],
-              ] as const
-            ).map(([name, label]) => (
-              <div key={name}>
-                <label className="block text-sm font-medium mb-1">{label}</label>
-                <select
-                  name={name}
-                  value={opCriteria[name]}
-                  onChange={handleOpChange}
-                  className="w-full p-2 border rounded"
-                >
-                  <option value="">Select...</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-              </div>
-            ))}
+        {/* ABOUT */}
+        {activeTab === "about" && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4 text-[#0096B7]">About</h2>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Neuroma type/location*</label>
-              <select
-                name="neuromaType"
-                value={opCriteria.neuromaType}
-                onChange={handleOpChange}
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select...</option>
-                <option value="terminal">Terminal (end neuroma) - non-weight bearing</option>
-                <option value="continuity">Neuroma-in-continuity</option>
-                <option value="weightBearing">Terminal - weight bearing location</option>
-                <option value="multiple">Multiple neuromas</option>
-              </select>
+            <div className="bg-gray-50 p-4 rounded mb-4">
+              <p className="text-sm text-gray-800">
+                This tool is designed to standardize evaluation and stepwise management of symptomatic neuromas
+                in the hand/upper extremity, integrating clinical exam, imaging, diagnostic blocks, non-operative
+                treatment, and operative pathway selection.
+              </p>
             </div>
 
-            {opFilled && (
-              <div className="bg-white p-4 rounded border">
-                <div className={`p-3 rounded border-l-4 ${opColor}`}>
-                  <div className="font-bold">Surgical Recommendation</div>
-                  <div>{opResult}</div>
-                </div>
-
-                {opRecommendations.length > 0 && (
-                  <ul className="mt-3 space-y-1">
-                    {opRecommendations.map((r, i) => (
-                      <li key={i}>{r}</li>
-                    ))}
-                  </ul>
-                )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white border p-4 rounded shadow-sm">
+                <div className="font-bold mb-2 text-[#0096B7]">Workflow</div>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  <li>Confirm pain generator (exam ± imaging ± block)</li>
+                  <li>Trial structured non-operative care</li>
+                  <li>For refractory cases, select operative branch by neuroma phenotype</li>
+                </ul>
               </div>
-            )}
+              <div className="bg-white border p-4 rounded shadow-sm">
+                <div className="font-bold mb-2 text-[#0096B7]">Clinical caveats</div>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  <li>Use as decision support—not as a substitute for judgment</li>
+                  <li>Consider central sensitization / CRPS features when pain is disproportionate</li>
+                  <li>Multi-disciplinary care often improves outcomes in complex patients</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* EVIDENCE */}
+        {activeTab === "evidence" && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4 text-[#0096B7]">Evidence Base</h2>
+
+            <div className="bg-blue-50 p-4 rounded border-l-4 border-[#0096B7] mb-4">
+              <p className="font-medium text-sm">
+                These algorithms are based on comprehensive literature review and expert consensus synthesizing
+                current evidence on hand/upper extremity neuroma diagnosis and management.
+              </p>
+            </div>
+
+            <h3 className="font-bold mt-4 mb-2">Diagnostic evidence (examples)</h3>
+            <div className="bg-gray-50 p-4 rounded mb-4">
+              <ul className="list-disc pl-5 space-y-2 text-sm">
+                <li>Clinical exam (localized tenderness/percussion) remains central; combine findings to improve accuracy.</li>
+                <li>Ultrasound and MRI neurography help localize/characterize neuromas when exam is equivocal.</li>
+                <li>Diagnostic blocks: &gt;50% pain reduction supports neuroma as the pain generator.</li>
+              </ul>
+            </div>
+
+            <h3 className="font-bold mt-4 mb-2">Non-operative management</h3>
+            <div className="bg-gray-50 p-4 rounded mb-4">
+              <ul className="list-disc pl-5 space-y-2 text-sm">
+                <li>Desensitization/hand therapy and graded exposure are foundational.</li>
+                <li>Neuropathic pain pharmacotherapy may reduce symptoms and improve rehab tolerance.</li>
+                <li>Injections can be used selectively for temporary relief and diagnostic clarification.</li>
+                <li>Typical minimum trial: ~3–6 months before escalating to surgery (unless urgent scenario).</li>
+              </ul>
+            </div>
+
+            <h3 className="font-bold mt-4 mb-2">Operative outcomes (high-level)</h3>
+            <div className="bg-gray-50 p-4 rounded">
+              <ul className="list-disc pl-5 space-y-2 text-sm">
+                <li>Techniques that provide a physiologic target for regenerating axons (when feasible) tend to reduce recurrence vs simple excision.</li>
+                <li>Recurrence varies by technique, nerve, and local tissue bed; coverage/scar environment matters.</li>
+                <li>Match the operative strategy to neuroma phenotype (terminal vs continuity) and nerve function (sensory vs mixed/motor).</li>
+              </ul>
+            </div>
           </div>
         )}
       </div>
