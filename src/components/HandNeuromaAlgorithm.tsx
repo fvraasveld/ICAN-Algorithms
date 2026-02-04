@@ -513,7 +513,7 @@ const HandNeuromaAlgorithm = () => {
                           </li>
                           <li>
                             • <span className="font-medium">Diagnostic Block:</span>{" "}
-                            >50% pain relief confirms neuroma as pain generator
+                            &gt;50% pain relief confirms neuroma as pain generator
                           </li>
                         </ul>
                       </div>
