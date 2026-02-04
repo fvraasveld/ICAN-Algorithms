@@ -170,7 +170,7 @@ const handleOpChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setOpColor("bg-green-100 border-green-500 text-green-800");
 
         // Provide recommendations based on neuroma type
-        let recommendations = [];
+        let recommendations: string[] = [];
         if (neuromaType === "terminal") {
           recommendations = [
             "Terminal neuroma in non-weight bearing location",
@@ -217,7 +217,7 @@ const handleOpChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setOpResult("Surgical intervention NOT indicated at this time");
         setOpColor("bg-red-100 border-red-500 text-red-800");
 
-        let recommendations = [];
+        let recommendations: string[] = [];
         if (failedConservative === "no") {
           recommendations.push(
             "Continue non-operative management (minimum 3-6 months recommended)"
