@@ -8,7 +8,7 @@ import KneeArthroplastyAlgorithm from './components/KneeArthroplastyAlgorithm';
 const ICANAlgorithmsLanding = () => {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
-  // Tool data - REAL ICAN tools with correct categories
+  // Tool data - ICAN tools with correct categories
   const tools = [
     {
       id: 'tmr-predictor',
@@ -49,14 +49,6 @@ const ICANAlgorithmsLanding = () => {
       category: 'Surgical Planning',
       status: 'Available',
       icon: '🦵'
-    },
-    {
-      id: 'tmr-hand',
-      title: 'Roadmap for TMR in the Hand',
-      description: 'Targeted Muscle Reinnervation (TMR) assessment and planning for hand amputations',
-      category: 'Surgical Planning',
-      status: 'Under Construction',
-      icon: '🖐️'
     },
     {
       id: 'tmr-map',
@@ -322,7 +314,7 @@ const ICANAlgorithmsLanding = () => {
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">7</div>
+            <div className="text-2xl font-bold text-[#0096B7]">6</div>
             <div className="text-sm text-gray-600">Clinical Algorithms</div>
           </div>
           <div className="text-center p-4 bg-blue-50 rounded-lg">
