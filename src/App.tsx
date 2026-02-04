@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import TMRPredictionTool from './components/TMRPredictionTool';
 import CentralPainCriteriaAssessment from './components/CentralizedPainCriteria';
+import MangledDigitScore from './components/MangledDigitScore';
+import HandNeuromaAlgorithm from './components/HandNeuromaAlgorithm';
 
 const ICANAlgorithmsLanding = () => {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
@@ -24,6 +26,22 @@ const ICANAlgorithmsLanding = () => {
       icon: '⚡'
     },
     {
+      id: 'mangled-digit',
+      title: 'Mangled Digit Severity Score (MDSS)',
+      description: 'Determining salvageability of severe digital injuries using validated scoring criteria',
+      category: 'Surgical Planning',
+      status: 'Available',
+      icon: '✋'
+    },
+    {
+      id: 'hand-neuroma',
+      title: 'Hand Neuroma Management Algorithms',
+      description: 'Evidence-based algorithms for screening, non-operative, and operative management of symptomatic neuromas',
+      category: 'Surgical Planning',
+      status: 'Available',
+      icon: '🔬'
+    },
+    {
       id: 'knee-arthroplasty',
       title: 'Knee Arthroplasty Nerve Management',
       description: 'Surgical management of peripheral nerve symptoms following knee arthroplasty',
@@ -37,7 +55,7 @@ const ICANAlgorithmsLanding = () => {
       description: 'Targeted Muscle Reinnervation (TMR) assessment and planning for hand amputations',
       category: 'Surgical Planning',
       status: 'Under Construction',
-      icon: '✋'
+      icon: '🖐️'
     },
     {
       id: 'tmr-map',
@@ -49,7 +67,7 @@ const ICANAlgorithmsLanding = () => {
     }
   ];
 
-  // Group tools by category - includes Treatment Planning
+  // Group tools by category
   const toolsByCategory = tools.reduce((acc: Record<string, any[]>, tool) => {
     if (!acc[tool.category]) {
       acc[tool.category] = [];
@@ -63,8 +81,11 @@ const ICANAlgorithmsLanding = () => {
       setSelectedTool('tmr-predictor');
     } else if (toolId === 'central-pain') {
       setSelectedTool('central-pain');
+    } else if (toolId === 'mangled-digit') {
+      setSelectedTool('mangled-digit');
+    } else if (toolId === 'hand-neuroma') {
+      setSelectedTool('hand-neuroma');
     }
-    // TMR Map and TMR Hand are under construction - no navigation needed
   };
 
   const goBack = () => {
@@ -137,6 +158,72 @@ const ICANAlgorithmsLanding = () => {
     );
   }
 
+  // If Mangled Digit tool is selected, show it
+  if (selectedTool === 'mangled-digit') {
+    return (
+      <div className="w-full max-w-6xl mx-auto">
+        {/* BIG RED WARNING BANNER */}
+        <div className="bg-red-50 border-4 border-red-400 p-8 mb-6 text-center rounded-lg shadow-lg">
+          <div className="flex items-center justify-center mb-4">
+            <svg className="w-12 h-12 text-red-600 mr-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span className="text-2xl font-bold text-red-800"> IMPORTANT VALIDATION NOTICE </span>
+          </div>
+          <p className="text-xl font-bold text-red-800 mb-2">
+            These evidence-based algorithms have been developed through our research and literature review, 
+            but have NOT yet been externally validated.
+          </p>
+          <p className="text-lg font-semibold text-red-700">
+            These tools should ONLY be used as a supplement to, not a replacement for, clinical judgment.
+          </p>
+        </div>
+        <div className="bg-white p-4 border-b">
+          <button 
+            onClick={goBack}
+            className="text-[#0096B7] hover:underline flex items-center mb-2"
+          >
+            ← Back to ICAN Algorithms
+          </button>
+          <MangledDigitScore />
+        </div>
+      </div>
+    );
+  }
+
+  // If Hand Neuroma tool is selected, show it
+  if (selectedTool === 'hand-neuroma') {
+    return (
+      <div className="w-full max-w-6xl mx-auto">
+        {/* BIG RED WARNING BANNER */}
+        <div className="bg-red-50 border-4 border-red-400 p-8 mb-6 text-center rounded-lg shadow-lg">
+          <div className="flex items-center justify-center mb-4">
+            <svg className="w-12 h-12 text-red-600 mr-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span className="text-2xl font-bold text-red-800"> IMPORTANT VALIDATION NOTICE </span>
+          </div>
+          <p className="text-xl font-bold text-red-800 mb-2">
+            These evidence-based algorithms have been developed through our research and literature review, 
+            but have NOT yet been externally validated.
+          </p>
+          <p className="text-lg font-semibold text-red-700">
+            These tools should ONLY be used as a supplement to, not a replacement for, clinical judgment.
+          </p>
+        </div>
+        <div className="bg-white p-4 border-b">
+          <button 
+            onClick={goBack}
+            className="text-[#0096B7] hover:underline flex items-center mb-2"
+          >
+            ← Back to ICAN Algorithms
+          </button>
+          <HandNeuromaAlgorithm />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-7xl mx-auto">
       {/* BIG RED WARNING BANNER */}
@@ -196,10 +283,10 @@ const ICANAlgorithmsLanding = () => {
           </p>
         </div>
 
-        {/* Statistics - REMOVED fake numbers */}
+        {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-[#0096B7]">5</div>
+            <div className="text-2xl font-bold text-[#0096B7]">7</div>
             <div className="text-sm text-gray-600">Clinical Algorithms</div>
           </div>
           <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -317,7 +404,7 @@ const ICANAlgorithmsLanding = () => {
         <div className="flex justify-between items-center">
           <div>
             <p className="font-medium">ICAN Algorithms Platform</p>
-            <p className="text-xs">Version 2.0 - June 2025</p>
+            <p className="text-xs">Version 2.0 - February 2025</p>
           </div>
           <div className="text-right">
             <p>© Interdisciplinary Care for Amputees Network</p>
