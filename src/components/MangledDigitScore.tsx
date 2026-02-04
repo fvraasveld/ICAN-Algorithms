@@ -383,7 +383,7 @@ const MangledDigitScore: React.FC = () => {
         <div className="flex justify-between items-center">
           <div>
             <p className="font-medium">ICAN Algorithms</p>
-            <p className="text-xs">Version 1.0 - February 2025</p>
+            <p className="text-xs">Version 1.0 - February 2026</p>
           </div>
           <div className="text-right">
             <p>© Interdisciplinary Care for Amputees Network</p>
