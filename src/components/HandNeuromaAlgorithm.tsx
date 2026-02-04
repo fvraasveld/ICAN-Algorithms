@@ -133,9 +133,6 @@ const HandNeuromaAlgorithm: React.FC = () => {
             <div className="text-sm font-light tracking-wide uppercase mb-1">
               Interdisciplinary Care for Amputees Network
             </div>
-            <div className="text-base font-medium">
-              Screening → Non-Operative → Operative Decision Support
-            </div>
           </div>
         </div>
       </div>
@@ -289,12 +286,6 @@ const HandNeuromaAlgorithm: React.FC = () => {
                   </ul>
                 </div>
 
-                <div className="mt-4 text-xs text-gray-600">
-                  Tip: In JSX, don’t write raw “&gt;” in text like{" "}
-                  <span className="font-mono">If x &gt; y</span>. Use{" "}
-                  <span className="font-mono">{`{'>'}`}</span> or{" "}
-                  <span className="font-mono">&amp;gt;</span> to avoid parser errors.
-                </div>
               </div>
             </div>
           </div>
