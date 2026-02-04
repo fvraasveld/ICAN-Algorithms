@@ -825,7 +825,7 @@ const MangledDigitScore = () => {
             </li>
             <li>
               Mean MDSS: 21 ± 11 for salvaged digits vs. 35 ± 10 for amputated
-              digits (p < 0.05)
+              digits (p &lt; 0.05)
             </li>
           </ul>
 
@@ -923,7 +923,7 @@ const MangledDigitScore = () => {
               </li>
               <li>
                 Mean MDSS for salvaged digits: 21 ± 11 vs. amputated digits: 35
-                ± 10 (p < 0.05)
+                ± 10 (p &lt; 0.05)
               </li>
             </ul>
           </div>
