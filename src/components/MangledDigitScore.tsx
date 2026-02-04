@@ -370,7 +370,7 @@ const MangledDigitScore = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-1">
-                    Age > 50 years (4 points)*
+                    Age &gt; 50 years (4 points)*
                   </label>
                   <select
                     name="ageOver50"
@@ -580,7 +580,7 @@ const MangledDigitScore = () => {
                       >
                         {criteria.ageOver50 === "yes" ? "✓" : ""}
                       </span>
-                      <span>Age > 50 years (4 points)</span>
+                      <span>Age &gt; 50 years (4 points)</span>
                     </li>
                     <li className="flex items-start">
                       <span
@@ -759,7 +759,7 @@ const MangledDigitScore = () => {
                 tissue loss requiring coverage
               </li>
               <li>
-                <span className="font-medium">Age > 50 years (4):</span>{" "}
+                <span className="font-medium">Age &gt; 50 years (4):</span>{" "}
                 Decreased regenerative capacity
               </li>
             </ul>
@@ -820,7 +820,7 @@ const MangledDigitScore = () => {
               (PPV 75%)
             </li>
             <li>
-              At threshold <25: 85% specificity for successful salvage (NPV
+              At threshold &lt;25: 85% specificity for successful salvage (NPV
               88%)
             </li>
             <li>
