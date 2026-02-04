@@ -1217,7 +1217,7 @@ const HandNeuromaAlgorithm = () => {
               </li>
               <li>
                 <span className="font-medium">Diagnostic nerve blocks:</span>{" "}
-                >50% pain reduction confirms neuroma as pain generator
+                &gt;50% pain reduction confirms neuroma as pain generator
               </li>
             </ul>
           </div>
@@ -1229,7 +1229,7 @@ const HandNeuromaAlgorithm = () => {
             <ul className="list-disc pl-5 space-y-2 text-sm">
               <li>
                 <span className="font-medium">Gabapentinoids:</span> 30-40%
-                achieve >50% pain reduction for neuropathic pain
+                achieve &gt;50% pain reduction for neuropathic pain
               </li>
               <li>
                 <span className="font-medium">Desensitization therapy:</span>{" "}
