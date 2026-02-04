@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const MangledDigitScore = () =&gt; {
+const MangledDigitScore = () => {
   // State for criteria inputs
   const [criteria, setCriteria] = useState({
     multilevelInjury: "",
