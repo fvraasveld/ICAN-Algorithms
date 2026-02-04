@@ -918,7 +918,7 @@ const MangledDigitScore = () => {
                 amputation
               </li>
               <li>
-                At MDSS <25: Sensitivity 85% for salvage, Specificity 85%,
+                At MDSS &lt;25: Sensitivity 85% for salvage, Specificity 85%,
                 NPV 88%
               </li>
               <li>
