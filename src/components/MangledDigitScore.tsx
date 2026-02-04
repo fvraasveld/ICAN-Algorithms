@@ -612,7 +612,7 @@ const MangledDigitScore = () => {
                       zone (case-by-case assessment)
                     </li>
                     <li>
-                      <span className="font-medium"><25:</span> High
+                      <span className="font-medium">&lt;25:</span> High
                       likelihood of salvage (consider salvage)
                     </li>
                   </ul>
